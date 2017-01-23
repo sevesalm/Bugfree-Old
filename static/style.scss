@@ -1,0 +1,166 @@
+body {
+    background-image: url('hex5.png');
+    background-attachment: fixed;
+    background-size: 400px auto;
+    padding-top: 50px;
+}
+
+html, body {
+	height: 100%;
+}
+
+img.can-open{
+	margin-bottom: 10px;
+	border: 1px solid #ddd;
+	transform: scale(1.0);
+	transition: transform 0.3s;
+	&:hover {
+		cursor: pointer;
+		transform: scale(1.05);
+	}
+}
+
+.content  { 
+	background: rgba(255, 255, 255, 0.7);
+	max-width: 950px;
+	min-height: 100%;
+	height: auto !important; // Makes the content REALLY extend to bottom
+}
+
+* {
+	font-family: 'Cabin', sans-serif;
+}
+
+.logo {
+	font-family: 'Patua One', cursive;
+}
+
+h1 {
+	font-size: 3.5em;
+	@media only screen and (max-width: 400px) {
+		font-size: 2.5em;
+	}
+}
+
+.main {
+	h1 {
+		font-size: 8em;
+		margin-bottom: 0em;
+
+		@media only screen and (max-width: 500px) {
+			font-size: 6em;
+		}
+		@media only screen and (max-width: 400px) {
+			font-size: 5.5em;
+		}
+
+	}
+	.quote{
+		margin-right: 15%;
+		float:right;
+		font-size: 1.5em;
+		font-style: italic;
+		@media only screen and (max-width: 400px) {
+			font-size: 1.2em;
+		}
+	}
+	.quote1, .quote2 {
+		-webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */
+		    -ms-animation: fadein 3s; /* Internet Explorer */
+		        animation: fadein 3s;
+		@keyframes fadein {
+		    from { opacity: 0; }
+		    to   { opacity: 1; }
+		}
+		@-webkit-keyframes fadein {
+		    from { opacity: 0; }
+		    to   { opacity: 1; }
+		}
+
+		opacity: 0;
+		-webkit-animation-fill-mode: forwards;
+		animation-fill-mode: forwards;
+		-webkit-animation-delay: 0.5s;
+		animation-delay: 0.5s;
+	}
+
+	.quote2 {
+		-webkit-animation-delay: 1.5s;
+		animation-delay: 1.5s;
+		margin:none;
+		float: none;
+	}
+
+	p {
+		margin-top: 5em;
+		font-size: 1.2em;
+	}
+
+	#wordle {
+		width: 75%;
+		margin: 0 auto;
+		margin-top: 4em;
+	}
+}
+
+.projects {
+	h1 {
+		margin-bottom: 40px;
+	}
+	.project {
+		img {
+			border-radius: 10px;
+		}
+
+		h3 {
+			margin-top: 0;
+		}
+	}
+	.border {
+		margin: 2em auto 2em;
+		width: 50%;
+		border-bottom: 1px solid #ddd;
+	}
+}
+
+
+.profile {
+	img {
+		float: right;
+		width: 180px;
+		max-width: 25%;
+		height: auto;
+		border-radius: 10px;
+		margin: 10px;
+
+	}
+	.category>ul>li>ul {
+		list-style-type: none;
+	}
+	.degree {
+		font-weight: bold;
+	}
+
+	ul {
+		padding-left: 20px;
+	}
+
+	.cv-icon {
+		float:left;
+		transition: transform 0.3s;
+		transform: scale(1);
+		.hovering {
+			transform: scale(1.2) !important;
+		}
+	}
+
+	.category {
+		margin-left: 4.5em;
+		margin-bottom: 3em;
+	}
+}
+
+
+
+
+

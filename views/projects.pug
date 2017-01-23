@@ -1,0 +1,21 @@
+extends base
+block content
+	.projects
+		h1.text-center Projects
+		each project in projects
+			.project.row
+				.row
+					.col-sm-8.col-sm-offset-4
+						h3= project.title
+				.row
+					.col-sm-4
+						img.img-responsive.can-open(src=project.image, alt='Bugfree screenshot')
+					.col-sm-8
+						p!= project.content
+						if project.source
+							h5
+								a(href=project.source) Source
+						if project.demo
+							h5
+								a(href=project.demo) Demo
+			.border

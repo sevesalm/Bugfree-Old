@@ -1,0 +1,63 @@
+extends base.pug
+block content
+    h1.text-center Severi Salminen
+    .profile
+        img.img-responsive.can-open(src='static/me.jpg', alt='Picture of Severi Salminen')
+        .section
+            .cv-icon
+                i.fa.fa-user.cv-icon.fa-3x(aria-hidden='true')
+            .category
+                h3 about(me);
+                p
+                    | Computers have always been around me. It all started with Commodore 64. At first I only played games, later I also tried simple programming with Basic and Simon's BASIC. With PCs it got a bit more serious: I made my first flames+zooming Mandelbrot demo using assembly language and taking advantage of the so-called VGA Mode X. Currently I'm studying for a master's degree in Computer Science at Aalto University.
+                p
+                    | I'm also a professional musician — I play the violin. I took a master's degree at Sibelius Academy and have played in multiple orchestras: The Orchestra of the Finnish National Opera, Riku Niemi Orchestra, Lohjan kaupunginorkesteri etc. I also play on many recordings.
+        .section
+            .cv-icon
+                i.fa.fa-graduation-cap.cv-icon.fa-3x(aria-hidden='true')
+            .category
+                h3 Education
+                ul
+                    li
+                        span.degree Master of Science (Technology)
+                        |  — Aalto University (2016–in progress)
+                        ul
+                            li Major: Computer Science (Web Technologies, Applications and Science)
+                    li
+                        span.degree Bachelor of Science (Technology)
+                        |  — Aalto University (2012–2016)
+                        ul
+                            li Minor: Industrial Engineering and Management
+                            li Major: Computer Science
+                            li
+                                | Thesis: 
+                                a(href='static/kandi_salminen_severi.pdf') "ECMAScript 6 — vaikutus ylläpidettävyyteen ja käytön yleisyys"
+                    li
+                        span.degree Master of Music
+                        |  — Sibelius Academy (2006)
+        .section
+            .cv-icon
+                i.fa.fa-wrench.cv-icon.fa-3x(aria-hidden='true')
+            .category
+                h3 Skills
+                p
+                    | At the present I mostly do full-stack web application developing. Below is a list of languages/technologies/concepts I'm proficient with.
+                ul
+                    li Languages: JavaScript, ES6, Python, C++, C, SQL, HTML, CSS, SCSS/SASS, Pug/Jade
+                    li
+                        | Tech: Node.js, Express, socket.io, Django, Bootstrap, jQuery, Webpack, MongoDB, PostgreSQL, AJAX, Nginx, VPS, Scrum
+                    li Areas of interest: 3D graphics, machine learning, UI design
+        .section
+            .cv-icon
+                i.fa.fa-gamepad.cv-icon.fa-3x(aria-hidden='true')
+            .category
+                h3 Interests
+                ul
+                    li
+                        | Golf: in the summer I play some golf — with my father — with subpar (pun intended) results...
+                    li
+                        | Board games: recently I got into playing modern board games like Pandemic, Agricola, Suburbia etc.
+                    li
+                        | Economics and investing: might sound boring, but I've always been interested in both macro and micro economics and personal wealth management. Maybe it'll someday pay off!
+                    li
+                        | Music: obviously. I listen to all kinds of music: classical, pop, jazz, progressive metal, folk music etc. And sometimes I just want to listen to silence.
