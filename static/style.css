@@ -88,7 +88,8 @@ h1 {
 .projects h1 {
   margin-bottom: 40px; }
 .projects .project img {
-  border-radius: 10px; }
+  border-radius: 10px;
+  max-height: 200px; }
 .projects .project h3 {
   margin-top: 0; }
 .projects .border {

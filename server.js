@@ -2,6 +2,12 @@ var express = require('express');
 var app = express();
 var projects = [
 	{
+		title: 		'AgriScore',
+		image:		'static/agriscore.png',
+		content: 	'AgriScore is a a simple tool for calculating player scores for the Agricola board game. It uses React library with ES6. The UI has been done using Material UI library with some MaterializeCSS typographic definitions. AgriScore uses Flexbox Grid for responsive frid management. Webpack is used for building.',
+		source: 	'https://github.com/sevesalm/AgriScore',
+	},
+	{
 		title: 		'bugfree.fi',
 		image:		'static/bugfree.png',
 		content: 	"Bugfree (this site) runs on a VPS provided by Scaleway. Currently it is running Ubuntu 16.10 (Yakkety Yak). Nginx is used as a web server and as a reverse proxy. Most web applications are running on a Node.js server. All the static content is served by the Nginx server. The site is written in JavaScript using Express framework with Pug template engine. It's using Bootstrap for responsive design."
@@ -42,10 +48,6 @@ app.get('/projects', function(req, res) {
 
 app.get('/profile', function(req, res) {
     res.render('profile');
-});
-
-app.get('/contact', function(req, res) {
-    res.render('contact');
 });
 
 var port = 3001;
