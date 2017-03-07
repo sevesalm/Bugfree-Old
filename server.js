@@ -6,11 +6,12 @@ var projects = [
 		image:		'static/agriscore.png',
 		content: 	'AgriScore is a a simple tool for calculating player scores for the Agricola board game. It uses React library with ES6. The UI has been done using Material UI library with some MaterializeCSS typographic definitions. AgriScore uses Flexbox Grid for responsive frid management. Webpack is used for building.',
 		source: 	'https://github.com/sevesalm/AgriScore',
+		demo:		'http://agriscore.bugfree.fi'
 	},
 	{
 		title: 		'bugfree.fi',
 		image:		'static/bugfree.png',
-		content: 	"Bugfree (this site) runs on a VPS provided by Scaleway. Currently it is running Ubuntu 16.10 (Yakkety Yak). Nginx is used as a web server and as a reverse proxy. Most web applications are running on a Node.js server. All the static content is served by the Nginx server. The site is written in JavaScript using Express framework with Pug template engine. It's using Bootstrap for responsive design."
+		content: 	"Bugfree (this site) runs on a VPS provided by Scaleway. Currently it is running Ubuntu 16.10 (Yakkety Yak). Nginx is used as a web server and as a reverse proxy. Most web applications are running on a Node.js server. All the static content is served by the Nginx server. The site is written in JavaScript using Express framework with Pug template engine. It's using Bootstrap for responsive design. Bugfree uses HTTPS and HTTP2 with a SSL certificate from <a href=\"https://letsencrypt.org\">Let's Encrypt</a>."
 	},
 	{
 		title: 		'ssChat',
