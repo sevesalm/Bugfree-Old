@@ -12,13 +12,13 @@ app.get('/', function(req, res) {
     res.render('main');
 });
 
-app.get('/projects', function(req, res) {
+app.get('/projects/', function(req, res) {
 	mongoDB.collection('projects').find().toArray(function(err, projects) {
     	res.render('projects', {projects});
 	});
 });
 
-app.get('/profile', function(req, res) {
+app.get('/profile/', function(req, res) {
     res.render('profile');
 });
 
