@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 
 // MongoDB setup
-var MongoClient = require('mongodb').MongoClient;
+var mongodb = require('mongodb');
+var MongoClient = mongodb.MongoClient;
 var mongoUrl = 'mongodb://localhost:27017/bugfree';
 var mongoDB = null;
 
@@ -13,27 +14,58 @@ app.get('/', (req, res) => {
     res.render('main');
 });
 
+app.get('/login/', (req, res) => {
+    res.render('login');
+});
+
 app.get('/projects/', (req, res) => {
-	mongoDB.collection('projects').find().toArray( (err, projects) => {
-    	res.render('projects', {projects});
-	});
+	mongoDB.collection('projects').find().toArray()
+        .then((projects) => {
+    	   res.render('projects', {projects});
+        })
+        .catch((err) => {
+            console.log("MongoDB: error fetching projects");
+        });
 });
 
 app.get('/profile/', (req, res) => {
     res.render('profile');
 });
 
-MongoClient.connect(mongoUrl)
-  .then(function(db) {
-      console.log("MongoDB: connected");
-      mongoDB = db;
+app.get('/api/projects/', (req, res) => {
+    mongoDB.collection('projects').find({}).toArray()
+        .then((projects) => {
+            res.json(projects);
+        })
+        .catch((err) => {
+            console.log("MongoDB: error fetching api/projects/");
+            return res.json(err);
+        });
+});
 
-      var port = 3001;
-      app.listen(port, () => {
-        console.log('Bugfree: listening on localhost: %d', port);
-      });
-  })
-  .catch((err) => {
-      console.log("MongoDB: error connecting!");
-      console.log("err.message: ", err.message);
-  });
+app.get('/api/projects/:project_id', (req, res) => {
+    let project_id = req.params.project_id;
+    mongoDB.collection('projects').findOne({id: project_id})
+        .then((project) => {
+            res.json(project);
+        })
+        .catch((err) => {
+            console.log("MongoDB: error fetching api/projects/:project_id");
+            return res.json(err);
+        });
+});
+
+MongoClient.connect(mongoUrl)
+    .then(function(db) {
+        console.log("MongoDB: connected");
+        mongoDB = db;
+
+        var port = 3001;
+        app.listen(port, () => {
+            console.log('Bugfree: listening on localhost: %d', port);
+        });
+    })
+    .catch((err) => {
+        console.log("MongoDB: error connecting!");
+        console.log("err.message: ", err.message);
+    });

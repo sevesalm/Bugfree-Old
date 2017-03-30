@@ -1,0 +1,15 @@
+extends base
+block content
+    h1.text-center Login
+    form.form-horizontal
+        .form-group
+            label.col-sm-2.col-sm-offset-2.control-label(for='inputUsername') Email
+            .col-sm-6
+                input#inputUsername.form-control(type='username', placeholder='Username')
+        .form-group
+            label.col-sm-2.col-sm-offset-2.control-label(for='inputPassword') Password
+            .col-sm-6
+                input#inputPassword.form-control(type='password', placeholder='Password')
+        .form-group
+            .col-sm-offset-4.col-sm-8
+                button.btn.btn-primary(type='submit') Log in
