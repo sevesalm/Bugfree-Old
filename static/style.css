@@ -7,6 +7,9 @@ body {
 html, body {
   height: 100%; }
 
+nav .navbar-right a.username {
+  color: white; }
+
 img.can-open {
   margin-bottom: 10px;
   border: 1px solid #ddd;

@@ -4,8 +4,13 @@
   "version": "0.0.2",
   "description": "Bugfree site",
   "dependencies": {
-    "express": "^4.14.0",
-    "mongodb": "^2.2.24",
-    "pug": "^2.0.0-beta6"
+    "bcryptjs": "latest",
+    "body-parser": "^1.17.1",
+    "express": "latest",
+    "express-session": "^1.15.2",
+    "mongodb": "latest",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "pug": "latest"
   }
 }

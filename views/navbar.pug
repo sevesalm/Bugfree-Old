@@ -13,4 +13,9 @@ nav.navbar.navbar-inverse.navbar-fixed-top
                     a(href='/projects/') Projects
                 li
                     a(href='/profile/') About me
-                    
+            if full_name
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a.username(href='/profile/') #{full_name}
+                    li
+                        a(href='/logout/') #[span.glyphicon.glyphicon-log-out]
