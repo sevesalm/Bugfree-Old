@@ -113,9 +113,9 @@ app.get('/profile/', (req, res) => {
     res.render('profile');
 });
 
-app.get('/submit/', (req, res) => {
+app.get('/publish/', (req, res) => {
     if(req.isAuthenticated()) {
-        res.render('welcome', {username: req.user.username});
+        res.render('publish');
     }
     else
         res.redirect('/login/')

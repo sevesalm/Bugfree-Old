@@ -19,6 +19,7 @@ html(lang='en')
 		link(rel='manifest', href='/manifest.json')
 		link(rel='mask-icon', href='/safari-pinned-tab.svg', color='#a04101')
 		meta(name='theme-color', content='#ffffff')
+		block head
 
 	body
 		.modal.fade#image-modal(tabindex='-1', role='dialog')
@@ -30,3 +31,4 @@ html(lang='en')
 			.col-sm-10.col-sm-offset-1
 				block content
 		script(src='/static/script.js', type='text/javascript')
+		block scripts
