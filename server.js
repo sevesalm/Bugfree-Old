@@ -12,12 +12,14 @@ var PassportStrategy = require('passport-local').Strategy;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
-//app.use(bodyParser.json());
+
 var session_conf = {
     secret: 'Bugfree is c00l!',
     resave: false,
     saveUninitialized: false,
-    cookie: {}
+    cookie: {
+        maxAge: 1000*60*60
+    }
 }
 
 if(app.get('env') === 'production') {
@@ -37,7 +39,7 @@ passport.use(new PassportStrategy((username, password, cb) => {
             }
             else {
                 cb(null, false);
-                throw new Error("PasspoerStrategy: Username not found!");
+                throw new Error("PassportStrategy: Username not found!");
             }
         })
         .then((isMatch) => {
@@ -60,7 +62,12 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((id, cb) => {
     mongoDB.collection('users').findOne({_id: mongodb.ObjectID(id)})
         .then((user) => {
-            cb(null, user);
+            if(user) {
+                cb(null, user);
+            }
+            else {
+                throw new Error('deserializeUser: user not found!');
+            }
         })
         .catch((err) => {
             cb(err);
@@ -74,12 +81,19 @@ var MongoClient = mongodb.MongoClient;
 var mongoUrl = 'mongodb://localhost:27017/bugfree';
 var mongoDB = null;
 
-app.use((req,res,next) => {
-    if(req.user) {
+app.use((req, res, next) => {
+    if(req.isAuthenticated()) {
         res.locals.full_name = req.user.firstname + ' ' + req.user.lastname;
     }
     next();
 });
+
+function authorizeUser(req, res, next) {
+    if(req.isAuthenticated())
+        next();
+    else
+        res.redirect('/login/');
+}
 
 app.get('/', (req, res) => {
     res.render('main');
@@ -113,13 +127,14 @@ app.get('/profile/', (req, res) => {
     res.render('profile');
 });
 
-app.get('/publish/', (req, res) => {
-    if(req.isAuthenticated()) {
-        res.render('publish');
-    }
-    else
-        res.redirect('/login/')
+app.get('/publish/', authorizeUser, (req, res) => {
+    res.render('publish');
 });
+
+app.post('/publish/', authorizeUser, (req, res) => {
+    res.render('preview', {content: req.body});
+});
+
 
 app.get('/api/projects/', (req, res) => {
     mongoDB.collection('projects').find({}).toArray()
@@ -128,7 +143,7 @@ app.get('/api/projects/', (req, res) => {
         })
         .catch((err) => {
             console.log("MongoDB: error fetching api/projects/");
-            return res.json(err);
+            res.json(err);
         });
 });
 
@@ -140,7 +155,7 @@ app.get('/api/projects/:project_id', (req, res) => {
         })
         .catch((err) => {
             console.log("MongoDB: error fetching api/projects/:project_id");
-            return res.json(err);
+            res.json(err);
         });
 });
 
