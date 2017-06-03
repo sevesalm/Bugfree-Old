@@ -1,0 +1,20 @@
+extends base
+block head
+    link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css')
+block content
+    .articles
+        h1.text-center Articles
+        each article in articles
+            .article.row
+                .row
+                    .col-sm-12
+                        h3.title= article.title
+                .row
+                    .col-sm-12
+                        h6.author #[span.glyphicon.glyphicon-user] #{article.author.firstname} #{article.author.lastname} #[span.glyphicon.glyphicon-time] #{article.dateTime}
+                .row
+                    .col-sm-12
+                        != article.body
+
+            .border
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js')

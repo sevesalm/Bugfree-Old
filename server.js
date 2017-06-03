@@ -41,16 +41,14 @@ passport.use(new PassportStrategy((username, password, cb) => {
                 cb(null, false);
                 throw new Error("PassportStrategy: Username not found!");
             }
-        })
-        .then((isMatch) => {
+        }).then((isMatch) => {
             if(isMatch) {
                 cb(null, user);
             }
             else {
                 cb(null, false);
             }
-        })
-        .catch((err) => {
+        }).catch((err) => {
             cb(err);
         });
 }));
@@ -68,8 +66,7 @@ passport.deserializeUser((id, cb) => {
             else {
                 throw new Error('deserializeUser: user not found!');
             }
-        })
-        .catch((err) => {
+        }).catch((err) => {
             cb(err);
         });
 });
@@ -117,8 +114,7 @@ app.get('/projects/', (req, res) => {
 	mongoDB.collection('projects').find().toArray()
         .then((projects) => {
     	   res.render('projects', {projects});
-        })
-        .catch((err) => {
+        }).catch((err) => {
             console.log("MongoDB: error fetching projects");
         });
 });
@@ -132,7 +128,32 @@ app.get('/publish/', authorizeUser, (req, res) => {
 });
 
 app.post('/publish/', authorizeUser, (req, res) => {
-    res.render('preview', {content: req.body});
+    let article = {
+        title:      req.body.title,
+        authorId:   req.user._id,
+        dateTime:   new Date(),
+        body:       req.body.editor
+    };
+    mongoDB.collection('articles').insertOne(article)
+    .then(() => {
+        console.log("Added a new article")
+        res.render('preview', {content: req.body});
+    }).catch((err) => {
+        console.log("Error saving a new article!")
+        res.redirect('/');
+    });
+});
+
+app.get('/articles/', (req, res) => {
+    mongoDB.collection('articles').aggregate([{$lookup: {from: "users", localField: "authorId", 
+foreignField: "_id", as: "authors"}}, { $unwind: "$authors"}, {$project: {title: 1, body: 1, dateTime: 1, "author.firstname": "$authors.firstname", "author.lastname": "$authors.lastname" }}]).toArray()
+        .then((articles) => {
+            console.log(articles);
+            console.log(articles[0]);
+            res.render('articles', {articles});
+        }).catch((err) => {
+            console.log("MongoDB: error fetching articles");
+        });
 });
 
 
@@ -140,8 +161,7 @@ app.get('/api/projects/', (req, res) => {
     mongoDB.collection('projects').find({}).toArray()
         .then((projects) => {
             res.json(projects);
-        })
-        .catch((err) => {
+        }).catch((err) => {
             console.log("MongoDB: error fetching api/projects/");
             res.json(err);
         });
@@ -152,8 +172,7 @@ app.get('/api/projects/:project_id', (req, res) => {
     mongoDB.collection('projects').findOne({id: project_id})
         .then((project) => {
             res.json(project);
-        })
-        .catch((err) => {
+        }).catch((err) => {
             console.log("MongoDB: error fetching api/projects/:project_id");
             res.json(err);
         });
@@ -163,6 +182,9 @@ MongoClient.connect(mongoUrl)
     .then(function(db) {
         console.log("MongoDB: connected");
         mongoDB = db;
+
+        // TODO: Remove later
+        //mongoDB.collection('articles').remove();
 
         var port = 3001;
         app.listen(port, () => {

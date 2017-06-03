@@ -4,6 +4,11 @@ body {
   background-size: 400px auto;
   padding-top: 50px; }
 
+.editor {
+  font-family: 'Cabin', sans-serif;
+  padding-top: 0px;
+  background: #fff; }
+
 html, body {
   height: 100%; }
 
@@ -25,7 +30,7 @@ img.can-open {
   min-height: 100%;
   height: auto !important; }
 
-* {
+body {
   font-family: 'Cabin', sans-serif; }
 
 .logo {

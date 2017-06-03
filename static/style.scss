@@ -5,6 +5,12 @@ body {
     padding-top: 50px;
 }
 
+.editor {
+	font-family: 'Cabin', sans-serif;
+	padding-top: 0px;
+	background: #fff;
+}
+
 html, body {
 	height: 100%;
 }
@@ -31,7 +37,7 @@ img.can-open{
 	height: auto !important; // Makes the content REALLY extend to bottom
 }
 
-* {
+body {
 	font-family: 'Cabin', sans-serif;
 }
 
