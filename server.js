@@ -167,6 +167,17 @@ app.get('/api/projects/', (req, res) => {
         });
 });
 
+app.get('/api/articles/', (req, res) => {
+    mongoDB.collection('articles').aggregate([{$lookup: {from: "users", localField: "authorId", 
+foreignField: "_id", as: "authors"}}, { $unwind: "$authors"}, {$project: {title: 1, body: 1, dateTime: 1, "author.firstname": "$authors.firstname", "author.lastname": "$authors.lastname" }}]).toArray()
+        .then((articles) => {
+            res.json(articles);
+        }).catch((err) => {
+            console.log("MongoDB: error fetching api/articles/");
+            res.json(err);
+        });
+});
+
 app.get('/api/projects/:project_id', (req, res) => {
     let project_id = req.params.project_id;
     mongoDB.collection('projects').findOne({id: project_id})
