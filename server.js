@@ -148,8 +148,6 @@ app.get('/articles/', (req, res) => {
     mongoDB.collection('articles').aggregate([{$lookup: {from: "users", localField: "authorId", 
 foreignField: "_id", as: "authors"}}, { $unwind: "$authors"}, {$project: {title: 1, body: 1, dateTime: 1, "author.firstname": "$authors.firstname", "author.lastname": "$authors.lastname" }}]).toArray()
         .then((articles) => {
-            console.log(articles);
-            console.log(articles[0]);
             res.render('articles', {articles});
         }).catch((err) => {
             console.log("MongoDB: error fetching articles");

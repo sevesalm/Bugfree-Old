@@ -22,9 +22,11 @@ block scripts
             selector:       '#editor',
             body_class:     'editor',
             content_css:    '/static/style.css,https://fonts.googleapis.com/css?family=Cabin',
+            plugins:        'paste',
+            paste_as_text:  true,
             menubar:        false,
             width:          '100%',
             height:         '400',
-            plugins:        "preview codesample",
-            toolbar:        "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample"
+            plugins:        'preview codesample',
+            toolbar:        'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | codesample'
         });
