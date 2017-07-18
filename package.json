@@ -3,6 +3,9 @@
   "main": "server.js",
   "version": "0.0.2",
   "description": "Bugfree site",
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "bcryptjs": "latest",
     "body-parser": "^1.17.1",
@@ -12,5 +15,10 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pug": "latest"
+  },
+  "devDependencies": {
+    "chai": "^4.1.0",
+    "chai-http": "^3.0.0",
+    "mocha": "^3.4.2"
   }
 }

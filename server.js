@@ -137,10 +137,10 @@ app.post('/publish/', authorizeUser, (req, res) => {
     mongoDB.collection('articles').insertOne(article)
     .then(() => {
         console.log("Added a new article")
-        res.render('preview', {content: req.body});
+        return res.render('preview', {content: req.body});
     }).catch((err) => {
         console.log("Error saving a new article!")
-        res.redirect('/');
+        return res.redirect('/');
     });
 });
 
@@ -148,9 +148,10 @@ app.get('/articles/', (req, res) => {
     mongoDB.collection('articles').aggregate([{$lookup: {from: "users", localField: "authorId", 
 foreignField: "_id", as: "authors"}}, { $unwind: "$authors"}, {$project: {title: 1, body: 1, dateTime: 1, "author.firstname": "$authors.firstname", "author.lastname": "$authors.lastname" }}]).toArray()
         .then((articles) => {
-            res.render('articles', {articles});
+            return res.render('articles', {articles});
         }).catch((err) => {
             console.log("MongoDB: error fetching articles");
+            return res.redirect('/');
         });
 });
 
@@ -158,10 +159,10 @@ foreignField: "_id", as: "authors"}}, { $unwind: "$authors"}, {$project: {title:
 app.get('/api/projects/', (req, res) => {
     mongoDB.collection('projects').find({}).toArray()
         .then((projects) => {
-            res.json(projects);
+            return res.json(projects);
         }).catch((err) => {
             console.log("MongoDB: error fetching api/projects/");
-            res.json(err);
+            return res.json(err);
         });
 });
 
@@ -169,10 +170,10 @@ app.get('/api/articles/', (req, res) => {
     mongoDB.collection('articles').aggregate([{$lookup: {from: "users", localField: "authorId", 
 foreignField: "_id", as: "authors"}}, { $unwind: "$authors"}, {$project: {title: 1, body: 1, dateTime: 1, "author.firstname": "$authors.firstname", "author.lastname": "$authors.lastname" }}]).toArray()
         .then((articles) => {
-            res.json(articles);
+            return res.json(articles);
         }).catch((err) => {
             console.log("MongoDB: error fetching api/articles/");
-            res.json(err);
+            return res.json(err);
         });
 });
 
@@ -180,10 +181,10 @@ app.get('/api/projects/:project_id', (req, res) => {
     let project_id = req.params.project_id;
     mongoDB.collection('projects').findOne({id: project_id})
         .then((project) => {
-            res.json(project);
+            return res.json(project);
         }).catch((err) => {
             console.log("MongoDB: error fetching api/projects/:project_id");
-            res.json(err);
+            return res.json(err);
         });
 });
 
@@ -196,7 +197,7 @@ MongoClient.connect(mongoUrl)
         //mongoDB.collection('articles').remove();
 
         var port = 3001;
-        app.listen(port, () => {
+        module.exports = app.listen(port, () => {
             console.log('Bugfree: listening on localhost: %d', port);
         });
     })
