@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 describe('API routes', () => {
     it('should return all projects', () => {
         return chai.request('http://localhost:3001').get('/api/projects')
-        .then((res) => {
+        .then(res => {
             res.should.have.status(200);
             res.should.be.json;
             res.body.should.be.a('array');
@@ -16,11 +16,9 @@ describe('API routes', () => {
         });
     });
 
-
-
     it('should return a single project', () => {
         return chai.request('http://localhost:3001').get('/api/projects/1')
-        .then((res) => {
+        .then(res => {
             res.should.have.status(200);
             res.should.be.json;
             res.body.should.include.keys('id');
@@ -31,7 +29,7 @@ describe('API routes', () => {
 
     it('should return redirect to /login', () => {
         return chai.request('http://localhost:3001').get('/publish')
-        .then((res) => {
+        .then(res => {
             res.redirects[0].should.equal('http://localhost:3001/login/');
             return res.should.have.status(200);
         });
