@@ -1,0 +1,30 @@
+{
+  "extends": "airbnb-base",
+  "extends": [
+    "plugin:promise/recommended"
+  ],
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true,
+    "mongo": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "plugins": [
+      "promise"
+  ],
+  "rules": {
+    "arrow-parens": ["error", "as-needed"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "never",
+      "exports": "never",
+      "functions": "ignore"
+    }],
+    "no-console": "off",
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }]
+  }
+}
