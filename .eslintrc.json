@@ -1,6 +1,6 @@
 {
-  "extends": "airbnb-base",
   "extends": [
+    "airbnb-base",
     "plugin:promise/recommended"
   ],
   "env": {
