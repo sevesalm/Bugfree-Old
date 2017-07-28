@@ -11,10 +11,10 @@ block content
                         h3.title= article.title
                 .row
                     .col-sm-12
-                        h6.author #[span.glyphicon.glyphicon-user] #{article.author.firstname} #{article.author.lastname} #[span.glyphicon.glyphicon-time] #{article.dateTime}
+                        h6.author #[span.glyphicon.glyphicon-user] #{article.first_name} #{article.last_name} #[span.glyphicon.glyphicon-time] #{article.timestamp}
                 .row
                     .col-sm-12
-                        != article.body
+                        != article.content
 
             .border
     script(src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js')
