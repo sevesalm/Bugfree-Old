@@ -3,10 +3,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const mongodb = require('mongodb');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
+const knex = require('./db');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
@@ -32,26 +32,9 @@ module.exports = app.listen(port, () => {
   console.log('Bugfree: listening on localhost: %d', port);
 });
 
-const MongoClient = mongodb.MongoClient;
-const mongoUrl = 'mongodb://localhost:27017/bugfree';
-let mongoDB = null;
-
-MongoClient.connect(mongoUrl)
-.then(db => {
-  console.log('MongoDB: connected');
-  mongoDB = db;
-  return true;
-  // TODO: Remove later
-  // mongoDB.collection('articles').remove();
-})
-.catch(err => {
-  console.log('MongoDB: error connecting!');
-  console.log('err.message: ', err.message);
-});
-
 passport.use(new PassportStrategy((username, password, cb) => {
   let user = null;
-  mongoDB.collection('users').findOne({ username })
+  knex('users').where({ username }).first()
   .then(item => {
     if (item) {
       user = item;
@@ -67,26 +50,23 @@ passport.use(new PassportStrategy((username, password, cb) => {
     }
     return cb(null, false);
   })
-  .catch(err => {
-    cb(err);
-  });
+  .catch(err => cb(err));
 }));
 
 passport.serializeUser((user, cb) => {
-  cb(null, user._id);
+  cb(null, user.id);
 });
 
 passport.deserializeUser((id, cb) => {
-  mongoDB.collection('users').findOne({ _id: mongodb.ObjectID(id) })
+  knex('users').select().where({ id }).first()
   .then(user => {
     if (user) {
       return cb(null, user);
     }
     throw new Error('deserializeUser: user not found!');
   })
-  .catch(err => {
-    return cb(err);
-  });
+  .catch(err => cb(err)
+  );
 });
 
 app.use(passport.initialize());
@@ -94,7 +74,7 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   if (req.isAuthenticated()) {
-    res.locals.full_name = `${req.user.firstname} ${req.user.lastname}`;
+    res.locals.full_name = `${req.user.first_name} ${req.user.last_name}`;
   }
   next();
 });
@@ -122,11 +102,9 @@ app.post('/login/', passport.authenticate('local', { failureRedirect: '/login/' 
 app.get('/logout/', (req, res) => req.session.destroy(() => res.redirect('/')));
 
 app.get('/projects/', (req, res) => {
-  mongoDB.collection('projects').find().toArray()
+  knex('projects').select()
   .then(projects => res.render('projects', { projects }))
-  .catch(() => {
-    console.log('MongoDB: error fetching projects');
-  });
+  .catch(err => res.json({ data: err, status: 500 }));
 });
 
 app.get('/profile/', (req, res) => {
@@ -140,61 +118,64 @@ app.get('/publish/', authorizeUser, (req, res) => {
 app.post('/publish/', authorizeUser, (req, res) => {
   const article = {
     title: req.body.title,
-    authorId: req.user._id,
-    dateTime: new Date(),
-    body: req.body.editor,
+    author_id: req.user.id,
+    content: req.body.editor,
   };
-  mongoDB.collection('articles').insertOne(article)
-  .then(() => {
-    console.log('Added a new article');
-    return res.render('preview', { content: req.body });
-  }).catch(() => {
-    console.log('Error saving a new article!');
+  knex('articles').insert(article)
+  .then(() => res.render('preview', { content: req.body }))
+  .catch(err => {
+    console.log(err);
     return res.redirect('/');
   });
 });
 
 app.get('/articles/', (req, res) => {
-  mongoDB.collection('articles').aggregate([{ $lookup: {
-    from: 'users',
-    localField: 'authorId',
-    foreignField: '_id',
-    as: 'authors' } }, { $unwind: '$authors' }, { $project: { title: 1, body: 1, dateTime: 1, 'author.firstname': '$authors.firstname', 'author.lastname': '$authors.lastname' } }]).toArray()
+  knex('articles')
+  .join('users', 'users.id', 'articles.author_id')
+  .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+  .orderBy('timestamp', 'desc')
   .then(articles => res.render('articles', { articles }))
-  .catch(() => {
-    console.log('MongoDB: error fetching articles');
+  .catch(err => {
+    console.log(err);
     return res.redirect('/');
   });
 });
 
-
-app.get('/api/projects/', (req, res) => {
-  mongoDB.collection('projects').find({}).toArray()
-  .then(projects => res.json(projects))
+app.get('/api/articles/', (req, res) => {
+  knex('articles')
+  .join('users', 'users.id', 'articles.author_id')
+  .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+  .orderBy('timestamp', 'desc')
+  .then(articles => res.json(articles))
   .catch(err => {
-    console.log('MongoDB: error fetching api/projects/');
+    console.log(err);
     return res.json(err);
   });
 });
 
-app.get('/api/articles/', (req, res) => {
-  mongoDB.collection('articles').aggregate([{ $lookup: { from: 'users',
-    localField: 'authorId',
-    foreignField: '_id',
-    as: 'authors' } }, { $unwind: '$authors' }, { $project: { title: 1, body: 1, dateTime: 1, 'author.firstname': '$authors.firstname', 'author.lastname': '$authors.lastname' } }]).toArray()
+app.get('/api/articles/:articleId', (req, res) => {
+  const articleId = req.params.articleId;
+  knex('articles')
+  .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+  .join('users', 'users.id', 'articles.author_id')
+  .where({ 'articles.id': articleId })
+  .first()
   .then(articles => res.json(articles))
   .catch(err => {
-    console.log('MongoDB: error fetching api/articles/');
+    console.log(err);
     return res.json(err);
   });
+});
+
+app.get('/api/projects/', (req, res) => {
+  knex('projects').select()
+  .then(projects => res.json(projects))
+  .catch(err => res.json({ data: err, status: 500 }));
 });
 
 app.get('/api/projects/:projectId', (req, res) => {
   const projectId = req.params.projectId;
-  mongoDB.collection('projects').findOne({ id: projectId })
+  knex('projects').select().where({ id: projectId }).first()
   .then(project => res.json(project))
-  .catch(err => {
-    console.log('MongoDB: error fetching api/projects/:projectId');
-    return res.json(err);
-  });
+  .catch(err => res.json({ data: err, status: 500 }));
 });
