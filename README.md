@@ -4,11 +4,13 @@ This is the repository for my personal website [Bugfree](http://www.bugfree.fi).
 
 ## Roadmap
 
-These are the features I'm planning to implement in the near future:
+These are the features I'm planning to implement (in no order of importance):
 
 - simple CMS for publishing articles or blog entries
 - automatic deployment using [Ansible](https://www.ansible.com)
 - automated testing with [Travis](https://travis-ci.org)
+- separate frontend implemented in [Elm](http://elm-lang.org)
+- improved repository structure
 
 ## License
 
