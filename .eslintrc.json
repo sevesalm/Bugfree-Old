@@ -7,7 +7,8 @@
     "es6": true,
     "node": true,
     "mocha": true,
-    "mongo": true
+    "mongo": true,
+    "jquery": true
   },
   "parserOptions": {
     "ecmaVersion": 6

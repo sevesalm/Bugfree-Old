@@ -35,22 +35,22 @@ module.exports = app.listen(port, () => {
 passport.use(new PassportStrategy((username, password, cb) => {
   let user = null;
   knex('users').where({ username }).first()
-  .then(item => {
-    if (item) {
-      user = item;
-      const hash = user.hash;
-      return bcrypt.compare(password, hash);
-    }
-    cb(null, false);
-    throw new Error('PassportStrategy: Username not found!');
-  })
-  .then(isMatch => {
-    if (isMatch) {
-      return cb(null, user);
-    }
-    return cb(null, false);
-  })
-  .catch(err => cb(err));
+    .then(item => {
+      if (item) {
+        user = item;
+        const hash = user.hash;
+        return bcrypt.compare(password, hash);
+      }
+      cb(null, false);
+      throw new Error('PassportStrategy: Username not found!');
+    })
+    .then(isMatch => {
+      if (isMatch) {
+        return cb(null, user);
+      }
+      return cb(null, false);
+    })
+    .catch(err => cb(err));
 }));
 
 passport.serializeUser((user, cb) => {
@@ -59,14 +59,14 @@ passport.serializeUser((user, cb) => {
 
 passport.deserializeUser((id, cb) => {
   knex('users').select().where({ id }).first()
-  .then(user => {
-    if (user) {
-      return cb(null, user);
-    }
-    throw new Error('deserializeUser: user not found!');
-  })
-  .catch(err => cb(err)
-  );
+    .then(user => {
+      if (user) {
+        return cb(null, user);
+      }
+      throw new Error('deserializeUser: user not found!');
+    })
+    .catch(err => cb(err)
+    );
 });
 
 app.use(passport.initialize());
@@ -103,8 +103,8 @@ app.get('/logout/', (req, res) => req.session.destroy(() => res.redirect('/')));
 
 app.get('/projects/', (req, res) => {
   knex('projects').select()
-  .then(projects => res.render('projects', { projects }))
-  .catch(err => res.json({ data: err, status: 500 }));
+    .then(projects => res.render('projects', { projects }))
+    .catch(err => res.json({ data: err, status: 500 }));
 });
 
 app.get('/profile/', (req, res) => {
@@ -122,60 +122,60 @@ app.post('/publish/', authorizeUser, (req, res) => {
     content: req.body.editor,
   };
   knex('articles').insert(article)
-  .then(() => res.render('preview', { content: req.body }))
-  .catch(err => {
-    console.log(err);
-    return res.redirect('/');
-  });
+    .then(() => res.render('preview', { content: req.body }))
+    .catch(err => {
+      console.log(err);
+      return res.redirect('/');
+    });
 });
 
 app.get('/articles/', (req, res) => {
   knex('articles')
-  .join('users', 'users.id', 'articles.author_id')
-  .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-  .orderBy('timestamp', 'desc')
-  .then(articles => res.render('articles', { articles }))
-  .catch(err => {
-    console.log(err);
-    return res.redirect('/');
-  });
+    .join('users', 'users.id', 'articles.author_id')
+    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+    .orderBy('timestamp', 'desc')
+    .then(articles => res.render('articles', { articles }))
+    .catch(err => {
+      console.log(err);
+      return res.redirect('/');
+    });
 });
 
 app.get('/api/articles/', (req, res) => {
   knex('articles')
-  .join('users', 'users.id', 'articles.author_id')
-  .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-  .orderBy('timestamp', 'desc')
-  .then(articles => res.json(articles))
-  .catch(err => {
-    console.log(err);
-    return res.json(err);
-  });
+    .join('users', 'users.id', 'articles.author_id')
+    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+    .orderBy('timestamp', 'desc')
+    .then(articles => res.json(articles))
+    .catch(err => {
+      console.log(err);
+      return res.json(err);
+    });
 });
 
 app.get('/api/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
   knex('articles')
-  .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-  .join('users', 'users.id', 'articles.author_id')
-  .where({ 'articles.id': articleId })
-  .first()
-  .then(articles => res.json(articles))
-  .catch(err => {
-    console.log(err);
-    return res.json(err);
-  });
+    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+    .join('users', 'users.id', 'articles.author_id')
+    .where({ 'articles.id': articleId })
+    .first()
+    .then(articles => res.json(articles))
+    .catch(err => {
+      console.log(err);
+      return res.json(err);
+    });
 });
 
 app.get('/api/projects/', (req, res) => {
   knex('projects').select()
-  .then(projects => res.json(projects))
-  .catch(err => res.json({ data: err, status: 500 }));
+    .then(projects => res.json(projects))
+    .catch(err => res.json({ data: err, status: 500 }));
 });
 
 app.get('/api/projects/:projectId', (req, res) => {
   const projectId = req.params.projectId;
   knex('projects').select().where({ id: projectId }).first()
-  .then(project => res.json(project))
-  .catch(err => res.json({ data: err, status: 500 }));
+    .then(project => res.json(project))
+    .catch(err => res.json({ data: err, status: 500 }));
 });

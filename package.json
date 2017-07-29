@@ -3,15 +3,23 @@
   "main": "server.js",
   "version": "0.0.2",
   "description": "Bugfree site",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sevesalm/Bugfree"
+  },
   "scripts": {
     "test": "mocha",
-    "lint": "eslint server.js"
+    "lint": "eslint .",
+    "seed": "knex seed:run",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback"
   },
   "dependencies": {
-    "bcryptjs": "latest",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.17.1",
-    "express": "latest",
-    "express-session": "^1.15.2",
+    "express": "^4.15.3",
+    "express-session": "^1.15.4",
     "knex": "^0.13.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
@@ -21,8 +29,8 @@
   "devDependencies": {
     "chai": "^4.1.0",
     "chai-http": "^3.0.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint": "^4.3.0",
+    "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-promise": "^3.5.0",
     "mocha": "^3.4.2"
