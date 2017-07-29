@@ -1,4 +1,4 @@
-const data = require('../projects.json');
+const data = require('../assets/projects.json');
 
 exports.seed = function (knex, Promise) {
   return Promise.all([knex('projects').del()
