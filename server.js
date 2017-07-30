@@ -1,18 +1,26 @@
 const express = require('express');
-
-const app = express();
+const redis = require('redis');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
 const knex = require('./db');
 
+const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 
+
+const redisClient = redis.createClient();
+redisClient.on('error', err => {
+  console.log(err);
+});
+
 const sessionConf = {
+  store: new RedisStore({ client: redisClient }),
   secret: 'Bugfree is c00l!',
   resave: false,
   saveUninitialized: false,

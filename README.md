@@ -8,6 +8,7 @@ Deployment is done using [Ansible](https://www.ansible.com). Prerequisites:
 
 - Ubuntu Server 16.10
 - PostgreSQL 9.6 with database 'bugfree'
+- Redis server
 - ssh connection
 - no ssh passphrase
 - no sudo password
