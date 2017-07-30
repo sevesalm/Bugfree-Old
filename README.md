@@ -11,7 +11,7 @@ Deployment is done using [Ansible](https://www.ansible.com). Make sure these con
 - no ssh passphrase
 - no sudo password
 
-First create a configuration file `ansible/hosts.yaml` using `ansible/hosts-example.yaml` as a template. The actual deployment:
+First create a configuration file `ansible/hosts.yaml` using `ansible/hosts-template.yaml` as a template. The actual deployment:
 
 ```shell
 npm run deploy
