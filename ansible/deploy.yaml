@@ -33,4 +33,7 @@
       args:
         chdir: /var/www/html
       become: false
+      environment:
+        DB_USER: "{{db_user}}"
+        DB_PASSWORD: "{{db_password}}"
 

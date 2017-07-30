@@ -4,9 +4,10 @@ This is the repository for my personal website [Bugfree](http://www.bugfree.fi).
 
 ## Deployment
 
-Deployment is done using [Ansible](https://www.ansible.com). Make sure these conditions hold:
+Deployment is done using [Ansible](https://www.ansible.com). Prerequisites:
 
-- Ubuntu server (16.10)
+- Ubuntu Server 16.10
+- PostgreSQL 9.6 with database 'bugfree'
 - ssh connection
 - no ssh passphrase
 - no sudo password

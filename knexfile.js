@@ -3,8 +3,8 @@ module.exports = {
     client: 'pg',
     connection: {
       database: 'bugfree',
-      user: process.env.db_user,
-      password: process.env.db_password,
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
     },
   },
 };

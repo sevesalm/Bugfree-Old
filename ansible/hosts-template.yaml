@@ -4,5 +4,7 @@ prod:
     # server.com
   vars:
     ansible_user: # username
-    ansible_connection: # ssh
+    ansible_connection: ssh
     ansible_ssh_private_key_file: # ~/.ssh/id_rsa
+    db_user: # username
+    db_password: # password
