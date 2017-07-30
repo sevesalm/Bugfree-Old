@@ -2,12 +2,26 @@
 
 This is the repository for my personal website [Bugfree](http://www.bugfree.fi). It is running on Node.js/Express and uses Pug template language. It uses PostgreSQL as the database management system.
 
+## Deployment
+
+Deployment is done using [Ansible](https://www.ansible.com). Make sure these conditions hold:
+
+- Ubuntu server (16.10)
+- ssh connection
+- no ssh passphrase
+- no sudo password
+
+First create a configuration file `ansible/hosts.yaml` using `ansible/hosts-example.yaml` as a template. The actual deployment:
+
+```shell
+npm run deploy
+```
+
 ## Roadmap
 
 These are the features I'm planning to implement (in no order of importance):
 
 - simple CMS for publishing articles or blog entries
-- automatic deployment using [Ansible](https://www.ansible.com)
 - automated testing with [Travis](https://travis-ci.org)
 - separate frontend implemented in [Elm](http://elm-lang.org)
 - improved repository structure

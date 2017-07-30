@@ -1,6 +1,5 @@
 ---
 - hosts: [ prod ]
-  remote_user: sevesalm
   become: true
   tasks:
     - name: sync images

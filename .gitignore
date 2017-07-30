@@ -3,4 +3,4 @@ node_modules
 .sass-cache/
 uploads/
 assets/
-ansible/inventory.ini
+ansible/hosts.yaml
