@@ -1,4 +1,4 @@
-# Bugfree [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+# Bugfree [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![Travis](https://img.shields.io/travis/sevesalm/bugfree.svg)]()
 
 This is the repository for my personal website [Bugfree](http://www.bugfree.fi). It is running on Node.js/Express and uses Pug template language. It uses PostgreSQL as the database management system.
 
