@@ -1,0 +1,37 @@
+---
+- hosts: [ prod ]
+  remote_user: sevesalm
+  become: true
+  tasks:
+    - name: sync images
+      synchronize: src=../images dest=/var/www/html rsync_opts="--chown=www-data:www-data"
+
+    - name: sync static
+      synchronize: src=../static dest=/var/www/html rsync_opts="--chown=www-data:www-data"
+
+    - name: sync views
+      synchronize: src=../views dest=/var/www/html rsync_opts="--chown=www-data:www-data"
+
+    - name: sync migrations
+      synchronize: src=../migrations dest=/var/www/html rsync_opts="--chown=www-data:www-data"
+
+    - name: copy files
+      copy: src=../{{item}} dest=/var/www/html/{{item | basename}} owner=www-data group=www-data
+      with_items:
+        - package.json
+        - server.js
+        - db.js
+        - knexfile.js
+        - browserconfig.xml
+        - manifest.json
+        - ansible/ecosystem.config.js
+
+    - name: install dependencies
+      npm: path=/var/www/html
+
+    - name: start the server
+      command: 'pm2 restart ecosystem.config.js'
+      args:
+        chdir: /var/www/html
+      become: false
+

@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "seed": "knex seed:run",
     "migrate": "knex migrate:latest",
-    "rollback": "knex migrate:rollback"
+    "rollback": "knex migrate:rollback",
+    "deploy": "ansible-playbook -i ansible/inventory.ini ansible/deploy.yaml"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

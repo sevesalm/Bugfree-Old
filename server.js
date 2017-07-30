@@ -21,6 +21,8 @@ const sessionConf = {
   },
 };
 
+console.log(`Production: ${(app.get('env') === 'production')}`);
+
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1);
   sessionConf.cookie.secure = true;
