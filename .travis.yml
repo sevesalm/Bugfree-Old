@@ -20,6 +20,7 @@ addons:
 
 services:
   - postgresql
+  - redis-server
 
 before_script:
   - psql -c 'create database bugfree_test;' -U postgres
