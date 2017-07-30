@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   production: {
     client: 'pg',
@@ -13,6 +15,9 @@ module.exports = {
       database: 'bugfree_test',
       user: 'postgres',
       password: '',
+    },
+    seeds: {
+      directory: path.join(__dirname, '/seeds/test'),
     },
   },
 };

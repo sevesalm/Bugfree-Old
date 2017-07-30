@@ -1,11 +1,18 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const knexfile = require('../knexfile');
+const knex = require('knex')(knexfile.test);
 const server = require('../server');
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('API routes', () => {
+  beforeEach(() =>
+    knex.migrate.latest()
+      .then(() => knex.seed.run())
+  );
+
   it('should return all projects', () =>
     chai.request(server).get('/api/projects')
       .then(res => {
