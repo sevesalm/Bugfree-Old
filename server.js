@@ -16,6 +16,7 @@ const sessionConf = {
   secret: 'Bugfree is c00l!',
   resave: false,
   saveUninitialized: false,
+  name: 'connect.sid',
   cookie: {
     maxAge: 1000 * 60 * 60,
   },
@@ -59,17 +60,18 @@ passport.serializeUser((user, cb) => {
   cb(null, user.id);
 });
 
-passport.deserializeUser((id, cb) => {
+passport.deserializeUser((id, cb) =>
   knex('users').select().where({ id }).first()
     .then(user => {
       if (user) {
-        return cb(null, user);
+        cb(null, user);
+        return null;
       }
       throw new Error('deserializeUser: user not found!');
     })
     .catch(err => cb(err)
-    );
-});
+    )
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -101,7 +103,14 @@ app.post('/login/', passport.authenticate('local', { failureRedirect: '/login/' 
   res.redirect('/');
 });
 
-app.get('/logout/', (req, res) => req.session.destroy(() => res.redirect('/')));
+app.get('/logout/', (req, res) =>
+  req.session.destroy(err => {
+    if (err) {
+      console.log(err);
+    }
+    res.clearCookie(sessionConf.name);
+    res.redirect('/');
+  }));
 
 app.get('/projects/', (req, res) => {
   knex('projects').select()
