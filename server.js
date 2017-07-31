@@ -6,17 +6,27 @@ const RedisStore = require('connect-redis')(session);
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
-const knex = require('./db');
+const knexfile = require('./knexfile.js');
+const knex = require('knex')(knexfile[process.env.NODE_ENV]);
+
+// In test environment migrate in test files
+if (process.env.NODE_ENV !== 'test') {
+  knex.migrate.latest()
+    .catch(err => console.log(err));
+}
 
 const app = express();
+console.log(`Production: ${(app.get('env') === 'production')}`);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 
-
 const redisClient = redis.createClient();
 redisClient.on('error', err => {
   console.log(err);
+});
+redisClient.on('ready', () => {
+  console.log('Redis: ready');
 });
 
 const sessionConf = {
@@ -30,7 +40,6 @@ const sessionConf = {
   },
 };
 
-console.log(`Production: ${(app.get('env') === 'production')}`);
 
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1);
