@@ -3,12 +3,13 @@ block head
     link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css')
 block content
     .article.row
-        .row.article__heading
-            .col-sm-12
+        .article__heading
+            .article__image
+                img.img-responsive.can-open(src='/static/me.jpg', alt='Picture of Severi Salminen')
+            .article__info
                 h1.title= article.title
-        .row.article__details
-            .col-sm-12
-                h6.author #[span.glyphicon.glyphicon-user] #{article.first_name} #{article.last_name} #[span.glyphicon.glyphicon-time] #{article.timestamp}
+                div #[span.glyphicon.glyphicon-user] #[span.author #{article.first_name} #{article.last_name}]
+                div #[span.glyphicon.glyphicon-time] #[span.time #{article.timestamp}]
         .row.article__content
             .col-sm-12
                 != article.content

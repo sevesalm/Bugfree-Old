@@ -172,6 +172,29 @@ h1 {
 }
 
 .article {
+	margin-top: 20px;
+
+	&__heading {
+		display: flex;
+	}
+
+	&__info {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+
+		.title {
+			margin-top: 0px;
+			margin-bottom: 10px;
+		}
+	}
+
+	&__image img {
+		width: 100px;
+		border-radius: 5px;
+		margin-right: 10px;
+	}
+
 	&__content pre {
 			margin: 0 3em !important;
 		}
