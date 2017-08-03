@@ -6,13 +6,13 @@ block content
         h1.text-center Articles
         each article in articles
             .article.row
-                .row
+                .row.article__heading
                     .col-sm-12
                         h3.title= article.title
-                .row
+                .row.article__details
                     .col-sm-12
                         h6.author #[span.glyphicon.glyphicon-user] #{article.first_name} #{article.last_name} #[span.glyphicon.glyphicon-time] #{article.timestamp}
-                .row
+                .row.article__content
                     .col-sm-12
                         != article.content
 

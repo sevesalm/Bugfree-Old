@@ -23,6 +23,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.4",
     "knex": "^0.13.0",
+    "moment": "^2.18.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pg": "^7.0.2",

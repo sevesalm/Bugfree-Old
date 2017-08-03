@@ -8,6 +8,7 @@ const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
 const knexfile = require('./knexfile.js');
 const knex = require('knex')(knexfile[process.env.NODE_ENV]);
+const moment = require('moment');
 
 // In test environment migrate in test files
 if (process.env.NODE_ENV !== 'test') {
@@ -157,12 +158,37 @@ app.post('/publish/', authorizeUser, (req, res) => {
     });
 });
 
+app.get('/articles/:articleId', (req, res) => {
+  const articleId = req.params.articleId;
+  knex('articles')
+    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+    .join('users', 'users.id', 'articles.author_id')
+    .where({ 'articles.id': articleId })
+    .first()
+    .then(item => {
+      const newItem = item;
+      newItem.timestamp = moment(item.timestamp).format('D.M.YYYY - H.mm');
+      return res.render('article', { article: newItem });
+    })
+    .catch(err => {
+      console.log(err);
+      return res.redirect('/');
+    });
+});
+
 app.get('/articles/', (req, res) => {
   knex('articles')
     .join('users', 'users.id', 'articles.author_id')
     .select('title', 'content', 'timestamp', 'first_name', 'last_name')
     .orderBy('timestamp', 'desc')
-    .then(articles => res.render('articles', { articles }))
+    .then(articles => {
+      articles.map(item => {
+        const newItem = item;
+        newItem.timestamp = moment(item.timestamp).format('D.M.YYYY - H.mm');
+        return newItem;
+      });
+      return res.render('articles', { articles });
+    })
     .catch(err => {
       console.log(err);
       return res.redirect('/');

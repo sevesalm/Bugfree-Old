@@ -30,7 +30,7 @@ img.can-open{
 	}
 }
 
-.content  { 
+.content  {
 	background: rgba(255, 255, 255, 0.7);
 	max-width: 950px;
 	min-height: 100%;
@@ -169,4 +169,10 @@ h1 {
 		margin-left: 4.5em;
 		margin-bottom: 3em;
 	}
+}
+
+.article {
+	&__content pre {
+			margin: 0 3em !important;
+		}
 }
