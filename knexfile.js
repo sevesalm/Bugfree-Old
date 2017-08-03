@@ -8,6 +8,9 @@ module.exports = {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
     },
+    seeds: {
+      directory: path.join(__dirname, '/seeds/development'),
+    },
   },
   production: {
     client: 'pg',
