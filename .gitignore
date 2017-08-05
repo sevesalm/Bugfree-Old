@@ -5,3 +5,5 @@ assets/
 ansible/hosts.yaml
 dump.rdb
 .DS_Store
+*.css
+*.css.map
