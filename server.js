@@ -150,7 +150,8 @@ function formatArticle(article) {
   const temp = cheerio.load($.html('pre'));
   const language = $('pre').attr('class');
   $('pre').replaceWith($('<div>').append(temp('pre').addClass('article__code-block')).addClass('article__code-block').addClass(language));
-  return $.html('div.article__code-block');
+  const result = $('body');
+  return result.html();
 }
 
 function createArticleTags(id, tags) {
@@ -204,7 +205,6 @@ app.get('/articles/:articleId', (req, res) => {
         throw new Error('No such article');
       }
       const newItem = item;
-      console.log(tags);
       newItem.timestamp = moment(item.timestamp).format('LL');
       if (tags && (tags.tags[0] !== '')) {
         newItem.tags = tags.tags;
