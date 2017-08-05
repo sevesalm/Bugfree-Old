@@ -9,6 +9,7 @@ const PassportStrategy = require('passport-local').Strategy;
 const knexfile = require('./knexfile.js');
 const knex = require('knex')(knexfile[process.env.NODE_ENV]);
 const moment = require('moment');
+const cheerio = require('cheerio');
 
 // In test environment migrate in test files
 if (process.env.NODE_ENV !== 'test') {
@@ -144,11 +145,19 @@ app.get('/publish/', authorizeUser, (req, res) => {
   res.render('publish');
 });
 
+function formatArticle(article) {
+  const $ = cheerio.load(article);
+  const temp = cheerio.load($.html('pre'));
+  const language = $('pre').attr('class');
+  $('pre').replaceWith($('<div>').append(temp('pre').addClass('article__code-block')).addClass('article__code-block').addClass(language));
+  return $.html('div.article__code-block');
+}
+
 app.post('/publish/', authorizeUser, (req, res) => {
   const article = {
     title: req.body.title,
     author_id: req.user.id,
-    content: req.body.editor,
+    content: formatArticle(req.body.editor),
   };
   knex('articles').insert(article)
     .then(() => res.render('preview', { content: req.body }))

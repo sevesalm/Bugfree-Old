@@ -173,6 +173,7 @@ h1 {
 
 .article {
 	margin-top: 20px;
+	position: relative;
 
 	&__heading {
 		display: flex;
@@ -195,7 +196,41 @@ h1 {
 		margin-right: 10px;
 	}
 
-	&__content pre {
-			margin: 0 3em !important;
+	div.language-javascript::before {
+			content: "Javascript";
+	}
+	div.language-markup::before {
+			content: "HTML/XML";
+	}
+	div.language-css::before {
+			content: "CSS";
+	}
+	div.language-python::before {
+			content: "Python";
+	}
+	div.language-java::before {
+			content: "Java";
+	}
+	div.language-cpp::before {
+			content: "C++";
+	}
+	div.language-c::before {
+			content: "C";
+	}
+	div.article__code-block {
+		margin: 0 2em;
+		position: relative;
+		&::before {
+			position: absolute;
+			top: -27px;
+			right: 0px;
+			border: solid 1px #ccc;
+			border-radius: 3px;
+			background: #f5f2f0;
+			padding: 3px;
+			color: #807f7e;
+			letter-spacing: 0.5px;
 		}
+	}
 }
+
