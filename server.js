@@ -6,19 +6,21 @@ const RedisStore = require('connect-redis')(session);
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
-const knexfile = require('./knexfile.js');
-const knex = require('knex')(knexfile[process.env.NODE_ENV]);
 const moment = require('moment');
 const cheerio = require('cheerio');
 
+const app = express();
+console.log(`Environment: ${app.get('env')}`);
+
+const knexfile = require('./knexfile.js');
+const knex = require('knex')(knexfile[app.get('env')]);
+
 // In test environment migrate in test files
-if (process.env.NODE_ENV !== 'test') {
+if (app.get('env') !== 'test') {
   knex.migrate.latest()
     .catch(err => console.log(err));
 }
 
-const app = express();
-console.log(`Environment: ${app.get('env')}`);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
@@ -182,8 +184,8 @@ app.post('/publish/', authorizeUser, (req, res) => {
     safeQuery,
   ])
     .then(id =>
-      knex('article_tag').insert(createArticleTags(id, tags)))
-    .then(() => res.render('preview', { content: req.body }))
+      knex('article_tag').insert(createArticleTags(id, tags)).returning('article_id'))
+    .then(id => res.redirect(`/articles/${id}`))
     .catch(err => {
       console.log(err);
       return res.redirect('/');
