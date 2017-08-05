@@ -2,14 +2,16 @@ extends base
 block head
     link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css')
 block content
-    .article
+    .row.article
         .article__heading
             .article__image
                 img.img-responsive.can-open(src='/static/me.jpg', alt='Picture of Severi Salminen')
             .article__info
                 h1.title= article.title
-                div #[span.glyphicon.glyphicon-user] #[span.author #{article.first_name} #{article.last_name}]
-                div #[span.glyphicon.glyphicon-time] #[span.time #{article.timestamp}]
+                div.details By #[div.author #{article.first_name} #{article.last_name}] on #[div.time #{article.timestamp}]
+                .tags
+                    each tag in article.tags
+                        .tag #{tag}
         .article__content
             != article.content
 

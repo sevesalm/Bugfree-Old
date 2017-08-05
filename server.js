@@ -176,7 +176,9 @@ app.get('/articles/:articleId', (req, res) => {
     .first()
     .then(item => {
       const newItem = item;
-      newItem.timestamp = moment(item.timestamp).format('D.M.YYYY - H.mm');
+      // newItem.timestamp = moment(item.timestamp).format('D.M.YYYY - H.mm');
+      newItem.timestamp = moment(item.timestamp).format('LL');
+      newItem.tags = ['JavaScript', 'HTML'];
       return res.render('article', { article: newItem });
     })
     .catch(err => {

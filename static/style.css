@@ -131,6 +131,10 @@ h1 {
 .article {
   margin-top: 20px;
   position: relative; }
+  .article__image img {
+    width: 120px;
+    border-radius: 5px;
+    margin-right: 10px; }
   .article__heading {
     display: flex; }
   .article__info {
@@ -139,19 +143,56 @@ h1 {
     align-items: flex-start; }
     .article__info .title {
       margin-top: 0px;
-      margin-bottom: 10px; }
-  .article__image img {
-    width: 100px;
-    border-radius: 5px;
-    margin-right: 10px; }
+      margin-bottom: 0px; }
+    .article__info .details {
+      margin-left: 5px;
+      margin-top: 5px;
+      color: #666;
+      font-size: 12px; }
+      .article__info .details .author, .article__info .details .time {
+        margin-right: 3px;
+        margin-left: 3px;
+        font-variant: small-caps;
+        display: inline-block;
+        color: #000;
+        font-weight: 600; }
+    .article__info .tags {
+      font-variant: small-caps;
+      margin-left: 5px;
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white; }
+      .article__info .tags .tag {
+        background: #bc906b;
+        border-radius: 3px;
+        padding: 1px 5px 2px 5px;
+        margin-right: 5px;
+        display: inline-block; }
   .article div.language-javascript::before {
     content: "Javascript"; }
   .article div.language-markup::before {
     content: "HTML/XML"; }
+  .article div.language-css::before {
+    content: "CSS"; }
+  .article div.language-python::before {
+    content: "Python"; }
+  .article div.language-java::before {
+    content: "Java"; }
+  .article div.language-cpp::before {
+    content: "C++"; }
+  .article div.language-c::before {
+    content: "C"; }
   .article div.article__code-block {
-    margin: 0 2em;
     position: relative; }
+    @media screen and (min-width: 768px) {
+      .article div.article__code-block {
+        margin: 0 2em; } }
+    @media screen and (max-width: 767px) {
+      .article div.article__code-block {
+        margin: 0; } }
     .article div.article__code-block::before {
+      font-variant: small-caps;
       position: absolute;
       top: -27px;
       right: 0px;
@@ -159,7 +200,7 @@ h1 {
       border-radius: 3px;
       background: #f5f2f0;
       padding: 3px;
-      color: #555;
-      letter-spacing: 0.5px; }
+      color: #807f7e;
+      letter-spacing: 0.8px; }
 
 /*# sourceMappingURL=style.css.map */
