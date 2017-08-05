@@ -169,16 +169,18 @@ app.post('/publish/', authorizeUser, (req, res) => {
 
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
-  knex('articles')
-    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-    .join('users', 'users.id', 'articles.author_id')
-    .where({ 'articles.id': articleId })
-    .first()
-    .then(item => {
+  Promise.all([
+    knex('articles')
+      .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+      .join('users', 'users.id', 'articles.author_id')
+      .where({ 'articles.id': articleId })
+      .first(),
+    knex('article_tag').select(knex.raw('coalesce(array_agg(tag), ARRAY[]::TEXT[]) as tags')).where({ article_id: articleId }).first(),
+  ])
+    .then(([item, tags]) => {
       const newItem = item;
-      // newItem.timestamp = moment(item.timestamp).format('D.M.YYYY - H.mm');
       newItem.timestamp = moment(item.timestamp).format('LL');
-      newItem.tags = ['JavaScript', 'HTML'];
+      newItem.tags = tags.tags;
       return res.render('article', { article: newItem });
     })
     .catch(err => {
