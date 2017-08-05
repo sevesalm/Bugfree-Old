@@ -153,13 +153,35 @@ function formatArticle(article) {
   return $.html('div.article__code-block');
 }
 
+function createArticleTags(id, tags) {
+  return tags.map(item =>
+    ({
+      article_id: parseInt(id, 10),
+      tag: item,
+    })
+  );
+}
+
+function createTags(tags) {
+  return tags.map(tag => ({ tag }));
+}
+
 app.post('/publish/', authorizeUser, (req, res) => {
+  const tags = req.body.tags.split(',');
   const article = {
     title: req.body.title,
     author_id: req.user.id,
     content: formatArticle(req.body.editor),
   };
-  knex('articles').insert(article)
+  const query = knex('tag').insert(createTags(tags));
+  const safeQuery = knex.raw('? ON CONFLICT DO NOTHING', [query]);
+
+  Promise.all([
+    knex('articles').insert(article).returning('id'),
+    safeQuery,
+  ])
+    .then(id =>
+      knex('article_tag').insert(createArticleTags(id, tags)))
     .then(() => res.render('preview', { content: req.body }))
     .catch(err => {
       console.log(err);
@@ -175,12 +197,20 @@ app.get('/articles/:articleId', (req, res) => {
       .join('users', 'users.id', 'articles.author_id')
       .where({ 'articles.id': articleId })
       .first(),
-    knex('article_tag').select(knex.raw('coalesce(array_agg(tag), ARRAY[]::TEXT[]) as tags')).where({ article_id: articleId }).first(),
+    knex('article_tag').select(knex.raw('array_agg(tag) as tags')).where({ article_id: articleId }).first(),
   ])
     .then(([item, tags]) => {
+      if (item == null) {
+        throw new Error('No such article');
+      }
       const newItem = item;
+      console.log(tags);
       newItem.timestamp = moment(item.timestamp).format('LL');
-      newItem.tags = tags.tags;
+      if (tags && (tags.tags[0] !== '')) {
+        newItem.tags = tags.tags;
+      } else {
+        newItem.tags = [];
+      }
       return res.render('article', { article: newItem });
     })
     .catch(err => {

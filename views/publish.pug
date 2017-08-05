@@ -9,6 +9,10 @@ block content
             .col-sm-10
                 input.form-control#editorTitle(type='text' name='title')
         .form-group
+            label.col-sm-2.control-label(for='editorTags') Tags
+            .col-sm-10
+                input.form-control#editorTags(type='text' name='tags' data-role='tagsinput')
+        .form-group
             label.col-sm-2.control-label(for='editorContent') Content
             .editorContent.col-sm-10
                 #editor
@@ -38,4 +42,11 @@ block scripts
                     {text: 'C', value: 'c'},
                     {text: 'C++', value: 'cpp'},
                 ],
+        });
+
+        var elt = $('#editorTags');
+        elt.tagsinput({
+            tagClass: function(item) {
+                return 'tag-label';
+            }
         });
