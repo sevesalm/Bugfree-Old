@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 const app = express();
-console.log(`Production: ${(app.get('env') === 'production')}`);
+console.log(`Environment: ${app.get('env')}`);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 app.set('view engine', 'pug');
