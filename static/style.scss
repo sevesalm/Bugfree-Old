@@ -252,9 +252,6 @@ h1 {
 		@media screen and (min-width: 768px) {
 			margin: 0 2em;
 		}
-		@media screen and (max-width: 767px) {
-			margin: 0;
-		}
 		position: relative;
 		&::before {
 			font-variant: small-caps;
