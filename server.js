@@ -8,7 +8,7 @@ const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
 const moment = require('moment');
 const cheerio = require('cheerio');
-const truncate = require('truncate-html');
+const truncateHtml = require('truncate-html');
 
 const app = express();
 console.log(`Environment: ${app.get('env')}`);
@@ -144,7 +144,7 @@ app.get('/publish/', authorizeUser, (req, res) => {
   res.render('publish');
 });
 
-function formatArticle(article) {
+function addPreWrapperDiv(article) {
   const $ = cheerio.load(article);
   const temp = cheerio.load($.html('pre'));
   const language = $('pre').attr('class');
@@ -158,7 +158,7 @@ app.post('/publish/', authorizeUser, (req, res) => {
   const article = {
     title: req.body.title,
     author_id: req.user.id,
-    content: formatArticle(req.body.editor),
+    content: addPreWrapperDiv(req.body.editor),
   };
 
   let articleId = null;
@@ -177,6 +177,18 @@ app.post('/publish/', authorizeUser, (req, res) => {
     });
 });
 
+function formatArticle(item, truncate) {
+  const newItem = item;
+  newItem.timestamp = moment(item.timestamp).format('LL');
+  if (newItem.tags[0] == null) {
+    newItem.tags = [];
+  }
+  if (truncate) {
+    newItem.content = truncateHtml(newItem.content, 50, { byWords: true, excludes: ['h3'] });
+  }
+  return newItem;
+}
+
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
   db.getArticle(articleId)
@@ -184,12 +196,8 @@ app.get('/articles/:articleId', (req, res) => {
       if (item == null) {
         throw new Error('No such article');
       }
-      const newItem = item;
-      newItem.timestamp = moment(item.timestamp).format('LL');
-      if (newItem.tags[0] == null) {
-        newItem.tags = [];
-      }
-      return res.render('article', { article: newItem });
+      const article = formatArticle(item, false);
+      return res.render('article', { article });
     })
     .catch(err => {
       console.log(err);
@@ -201,13 +209,8 @@ app.get('/articles/', (req, res) => {
   db.getArticles()
     .then(articles => {
       articles.map(item => {
-        const newItem = item;
-        newItem.timestamp = moment(item.timestamp).format('LL');
-        if (newItem.tags[0] == null) {
-          newItem.tags = [];
-        }
-        newItem.content = truncate(newItem.content, 50, { byWords: true, excludes: ['h3'] });
-        return newItem;
+        const article = formatArticle(item, true);
+        return article;
       });
       return res.render('articles', { articles });
     })
