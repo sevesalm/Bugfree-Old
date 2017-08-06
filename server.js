@@ -193,6 +193,16 @@ app.post('/publish/', authorizeUser, (req, res) => {
     });
 });
 
+function getTagsForArtice(id) {
+  return knex('article_tag').select(knex.raw('array_agg(tag) as tags')).where({ article_id: id }).first()
+    .then(tags => {
+      if (tags && (tags.tags[0] !== '')) {
+        return tags.tags;
+      }
+      return [];
+    });
+}
+
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
   Promise.all([
@@ -201,7 +211,7 @@ app.get('/articles/:articleId', (req, res) => {
       .join('users', 'users.id', 'articles.author_id')
       .where({ 'articles.id': articleId })
       .first(),
-    knex('article_tag').select(knex.raw('array_agg(tag) as tags')).where({ article_id: articleId }).first(),
+    getTagsForArtice(articleId),
   ])
     .then(([item, tags]) => {
       if (item == null) {
@@ -209,11 +219,7 @@ app.get('/articles/:articleId', (req, res) => {
       }
       const newItem = item;
       newItem.timestamp = moment(item.timestamp).format('LL');
-      if (tags && (tags.tags[0] !== '')) {
-        newItem.tags = tags.tags;
-      } else {
-        newItem.tags = [];
-      }
+      newItem.tags = tags;
       return res.render('article', { article: newItem });
     })
     .catch(err => {
@@ -228,13 +234,18 @@ app.get('/articles/', (req, res) => {
     .select('title', 'content', 'timestamp', 'first_name', 'last_name', 'articles.id')
     .orderBy('timestamp', 'desc')
     .then(articles => {
-      articles.map(item => {
+      const iterate = articles.map(item => {
         const newItem = item;
         newItem.timestamp = moment(item.timestamp).format('LL');
         newItem.content = truncate(newItem.content, 50, { byWords: true, excludes: ['h3'] });
-        return newItem;
+        return getTagsForArtice(item.id)
+          .then(tags => {
+            newItem.tags = tags;
+            return newItem;
+          });
       });
-      return res.render('articles', { articles });
+      return Promise.all(iterate)
+        .then(() => res.render('articles', { articles }));
     })
     .catch(err => {
       console.log(err);

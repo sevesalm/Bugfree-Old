@@ -8,6 +8,9 @@ block content
             a.articles__item(href='/articles/' + article.id)
                 h3.title= article.title
                 div.details By #[div.author #{article.first_name} #{article.last_name}] on #[div.time #{article.timestamp}]
+                    .tags
+                        each tag in article.tags
+                            .tag #{tag}
                 .article__content
                     != article.content
 
