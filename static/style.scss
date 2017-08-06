@@ -226,7 +226,9 @@ h1 {
 				font-size: 12px;
 				font-weight: 700;
 				color: white;
-				display: inline-block;
+				@media screen and (min-width: 768px) {
+					display: inline-block;
+				}
 				.tag {
 					background: rgb(188, 144, 107);
 					border-radius: 3px;
