@@ -31,7 +31,8 @@
     "passport-local": "^1.0.0",
     "pg": "^7.0.2",
     "pug": "latest",
-    "redis": "^2.7.1"
+    "redis": "^2.7.1",
+    "truncate-html": "^0.1.4"
   },
   "devDependencies": {
     "chai": "^4.1.0",

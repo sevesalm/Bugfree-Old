@@ -2,15 +2,13 @@ extends base
 block head
     link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css')
 block content
-    .articles
+    .row.articles
         h1.text-center Articles
         each article in articles
-            .article
-                .row.article__heading
-                    h3.title= article.title
-                .row.article__details
-                    h6.author #[span.glyphicon.glyphicon-user] #{article.first_name} #{article.last_name} #[span.glyphicon.glyphicon-time] #{article.timestamp}
-                .row.article__content
+            a.articles__item(href='/articles/' + article.id)
+                h3.title= article.title
+                div.details By #[div.author #{article.first_name} #{article.last_name}] on #[div.time #{article.timestamp}]
+                .article__content
                     != article.content
 
             .border

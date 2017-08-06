@@ -128,6 +128,12 @@ h1 {
 	}
 }
 
+.border {
+	margin: 2em auto 2em;
+	width: 50%;
+	border-bottom: 1px solid #ddd;
+}
+
 .projects {
 	h1 {
 		margin-bottom: 40px;
@@ -142,11 +148,7 @@ h1 {
 			margin-top: 0;
 		}
 	}
-	.border {
-		margin: 2em auto 2em;
-		width: 50%;
-		border-bottom: 1px solid #ddd;
-	}
+
 }
 
 
@@ -183,6 +185,41 @@ h1 {
 	.category {
 		margin-left: 4.5em;
 		margin-bottom: 3em;
+	}
+}
+
+.articles {
+	a.articles__item:hover{
+		text-decoration: none;
+		color: inherit;
+		background: rgba(150,150,150,0.2);
+		display: block;
+	}
+	&__item {
+		display: block;
+		color: inherit;
+		margin-bottom: 20px;
+		padding: 10px;
+		.title {
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+		.details {
+			margin-left: 5px;
+			margin-top: 5px;
+			margin-bottom: 10px;
+			color: #666;
+			font-size: 12px;
+
+			.author, .time {
+				margin-right: 3px;
+				margin-left: 3px;
+				font-variant: small-caps;
+				display: inline-block;
+				color: #000;
+				font-weight: 700;
+			}
+		}
 	}
 }
 
