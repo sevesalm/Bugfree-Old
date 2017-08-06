@@ -21,29 +21,41 @@ module.exports = function init(params) {
     return knex('projects').select();
   }
 
+  // SELECT title, content, timestamp, first_name, last_name, array_agg(article_tag.tag) AS tags
+  // FROM articles
+  // LEFT JOIN article_tag ON articles.id = article_tag.article_id
+  // JOIN users ON articles.author_id = users.id
+  // GROUP BY articles.id,
+  //          first_name,
+  //          last_name;
   function getArticle(id) {
     return knex('articles')
       .select('title', 'content', 'timestamp', 'first_name', 'last_name')
+      .select(knex.raw('title, content, timestamp, first_name, last_name, array_agg(tag) as tags'))
+      .leftJoin('article_tag', 'articles.id', 'article_tag.article_id')
       .join('users', 'users.id', 'articles.author_id')
+      .groupBy('articles.id', 'first_name', 'last_name')
       .where({ 'articles.id': id })
       .first();
   }
 
+  // SELECT title, content, timestamp, first_name, last_name, array_agg(article_tag.tag) AS tags
+  // FROM articles
+  // LEFT JOIN article_tag ON articles.id = article_tag.article_id
+  // JOIN users ON articles.author_id = users.id
+  // GROUP BY articles.id,
+  //          first_name,
+  //          last_name,
+  // ORDER BY timestamp DESC;
+
   function getArticles() {
     return knex('articles')
+      .select('articles.id', 'title', 'content', 'timestamp', 'first_name', 'last_name')
+      .select(knex.raw('title, content, timestamp, first_name, last_name, array_agg(tag) as tags'))
+      .leftJoin('article_tag', 'articles.id', 'article_tag.article_id')
       .join('users', 'users.id', 'articles.author_id')
-      .select('title', 'content', 'timestamp', 'first_name', 'last_name', 'articles.id')
+      .groupBy('articles.id', 'first_name', 'last_name')
       .orderBy('timestamp', 'desc');
-  }
-
-  function getTagsForArtice(id) {
-    return knex('article_tag').select(knex.raw('array_agg(tag) as tags')).where({ article_id: id }).first()
-      .then(tags => {
-        if (tags.tags && (tags.tags[0] !== '')) {
-          return tags.tags;
-        }
-        return [];
-      });
   }
 
   function insertArticle(article) {
@@ -79,7 +91,6 @@ module.exports = function init(params) {
     getProjects,
     getArticle,
     getArticles,
-    getTagsForArtice,
     insertArticle,
     insertTags,
     insertArticleTag,

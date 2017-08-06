@@ -179,17 +179,16 @@ app.post('/publish/', authorizeUser, (req, res) => {
 
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
-  Promise.all([
-    db.getArticle(articleId),
-    db.getTagsForArtice(articleId),
-  ])
-    .then(([item, tags]) => {
+  db.getArticle(articleId)
+    .then(item => {
       if (item == null) {
         throw new Error('No such article');
       }
       const newItem = item;
       newItem.timestamp = moment(item.timestamp).format('LL');
-      newItem.tags = tags;
+      if (newItem.tags[0] == null) {
+        newItem.tags = [];
+      }
       return res.render('article', { article: newItem });
     })
     .catch(err => {
@@ -201,18 +200,16 @@ app.get('/articles/:articleId', (req, res) => {
 app.get('/articles/', (req, res) => {
   db.getArticles()
     .then(articles => {
-      const iterate = articles.map(item => {
+      articles.map(item => {
         const newItem = item;
         newItem.timestamp = moment(item.timestamp).format('LL');
+        if (newItem.tags[0] == null) {
+          newItem.tags = [];
+        }
         newItem.content = truncate(newItem.content, 50, { byWords: true, excludes: ['h3'] });
-        return db.getTagsForArtice(item.id)
-          .then(tags => {
-            newItem.tags = tags;
-            return newItem;
-          });
+        return newItem;
       });
-      return Promise.all(iterate)
-        .then(() => res.render('articles', { articles }));
+      return res.render('articles', { articles });
     })
     .catch(err => {
       console.log(err);
