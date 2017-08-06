@@ -180,13 +180,16 @@ app.post('/publish/', authorizeUser, (req, res) => {
   const query = knex('tag').insert(createTags(tags));
   const safeQuery = knex.raw('? ON CONFLICT DO NOTHING', [query]);
 
+  let articleId = null;
   Promise.all([
     knex('articles').insert(article).returning('id'),
     safeQuery,
   ])
-    .then(id =>
-      knex('article_tag').insert(createArticleTags(id, tags)).returning('article_id'))
-    .then(id => res.redirect(`/articles/${id}`))
+    .then(values => {
+      articleId = values[0];
+      return knex('article_tag').insert(createArticleTags(articleId, tags));
+    })
+    .then(() => res.redirect(`/articles/${articleId}`))
     .catch(err => {
       console.log(err);
       return res.redirect('/');
