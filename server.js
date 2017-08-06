@@ -14,13 +14,10 @@ const app = express();
 console.log(`Environment: ${app.get('env')}`);
 
 const knexfile = require('./knexfile.js');
-const knex = require('knex')(knexfile[app.get('env')]);
 
-// In test environment migrate in test files
-if (app.get('env') !== 'test') {
-  knex.migrate.latest()
-    .catch(err => console.log(err));
-}
+const environment = app.get('env');
+const knex = require('knex')(knexfile[environment]);
+const db = require('./db')({ knex, environment });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
@@ -45,7 +42,6 @@ const sessionConf = {
   },
 };
 
-
 if (app.get('env') === 'production') {
   app.set('trust proxy', 1);
   sessionConf.cookie.secure = true;
@@ -59,7 +55,7 @@ module.exports = app.listen(port, () => {
 
 passport.use(new PassportStrategy((username, password, cb) => {
   let user = null;
-  knex('users').where({ username }).first()
+  db.getUserByUsername(username)
     .then(item => {
       if (item) {
         user = item;
@@ -83,7 +79,7 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((id, cb) =>
-  knex('users').select().where({ id }).first()
+  db.getUser(id)
     .then(user => {
       if (user) {
         cb(null, user);
@@ -135,7 +131,7 @@ app.get('/logout/', (req, res) =>
   }));
 
 app.get('/projects/', (req, res) => {
-  knex('projects').select()
+  db.getProjects()
     .then(projects => res.render('projects', { projects }))
     .catch(err => res.json({ data: err, status: 500 }));
 });
@@ -157,19 +153,6 @@ function formatArticle(article) {
   return result.html();
 }
 
-function createArticleTags(id, tags) {
-  return tags.map(item =>
-    ({
-      article_id: parseInt(id, 10),
-      tag: item,
-    })
-  );
-}
-
-function createTags(tags) {
-  return tags.map(tag => ({ tag }));
-}
-
 app.post('/publish/', authorizeUser, (req, res) => {
   const tags = req.body.tags.split(',');
   const article = {
@@ -177,17 +160,15 @@ app.post('/publish/', authorizeUser, (req, res) => {
     author_id: req.user.id,
     content: formatArticle(req.body.editor),
   };
-  const query = knex('tag').insert(createTags(tags));
-  const safeQuery = knex.raw('? ON CONFLICT DO NOTHING', [query]);
 
   let articleId = null;
   Promise.all([
-    knex('articles').insert(article).returning('id'),
-    safeQuery,
+    db.insertArticle(article),
+    db.insertTags(tags),
   ])
     .then(values => {
       articleId = values[0];
-      return knex('article_tag').insert(createArticleTags(articleId, tags));
+      return db.insertArticleTag(articleId, tags);
     })
     .then(() => res.redirect(`/articles/${articleId}`))
     .catch(err => {
@@ -196,25 +177,11 @@ app.post('/publish/', authorizeUser, (req, res) => {
     });
 });
 
-function getTagsForArtice(id) {
-  return knex('article_tag').select(knex.raw('array_agg(tag) as tags')).where({ article_id: id }).first()
-    .then(tags => {
-      if (tags && (tags.tags[0] !== '')) {
-        return tags.tags;
-      }
-      return [];
-    });
-}
-
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
   Promise.all([
-    knex('articles')
-      .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-      .join('users', 'users.id', 'articles.author_id')
-      .where({ 'articles.id': articleId })
-      .first(),
-    getTagsForArtice(articleId),
+    db.getArticle(articleId),
+    db.getTagsForArtice(articleId),
   ])
     .then(([item, tags]) => {
       if (item == null) {
@@ -232,16 +199,13 @@ app.get('/articles/:articleId', (req, res) => {
 });
 
 app.get('/articles/', (req, res) => {
-  knex('articles')
-    .join('users', 'users.id', 'articles.author_id')
-    .select('title', 'content', 'timestamp', 'first_name', 'last_name', 'articles.id')
-    .orderBy('timestamp', 'desc')
+  db.getArticles()
     .then(articles => {
       const iterate = articles.map(item => {
         const newItem = item;
         newItem.timestamp = moment(item.timestamp).format('LL');
         newItem.content = truncate(newItem.content, 50, { byWords: true, excludes: ['h3'] });
-        return getTagsForArtice(item.id)
+        return db.getTagsForArtice(item.id)
           .then(tags => {
             newItem.tags = tags;
             return newItem;
@@ -257,10 +221,7 @@ app.get('/articles/', (req, res) => {
 });
 
 app.get('/api/articles/', (req, res) => {
-  knex('articles')
-    .join('users', 'users.id', 'articles.author_id')
-    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-    .orderBy('timestamp', 'desc')
+  db.getArticles()
     .then(articles => res.json(articles))
     .catch(err => {
       console.log(err);
@@ -270,11 +231,7 @@ app.get('/api/articles/', (req, res) => {
 
 app.get('/api/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
-  knex('articles')
-    .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-    .join('users', 'users.id', 'articles.author_id')
-    .where({ 'articles.id': articleId })
-    .first()
+  db.getArticle(articleId)
     .then(articles => res.json(articles))
     .catch(err => {
       console.log(err);
@@ -283,14 +240,14 @@ app.get('/api/articles/:articleId', (req, res) => {
 });
 
 app.get('/api/projects/', (req, res) => {
-  knex('projects').select()
+  db.getProjects()
     .then(projects => res.json(projects))
     .catch(err => res.json({ data: err, status: 500 }));
 });
 
 app.get('/api/projects/:projectId', (req, res) => {
   const projectId = req.params.projectId;
-  knex('projects').select().where({ id: projectId }).first()
+  db.getProject(projectId)
     .then(project => res.json(project))
     .catch(err => res.json({ data: err, status: 500 }));
 });
