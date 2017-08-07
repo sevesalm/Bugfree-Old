@@ -200,24 +200,28 @@ app.get('/articles/:articleId', (req, res) => {
     });
 });
 
-app.get('/articles/', (req, res) => {
-  db.getArticles()
+
+app.get('/articles/', (req, res) =>
+  res.render('articles')
+);
+
+app.get('/api/articles/', (req, res) => {
+  let offset = 0;
+  let limit = 10;
+  if (req.query.offset) {
+    offset = parseInt(req.query.offset, 10);
+  }
+  if (req.query.limit) {
+    limit = parseInt(req.query.limit, 10);
+  }
+  db.getArticles(offset, limit)
     .then(articles => {
       articles.map(item => {
         const article = formatArticle(item, true);
         return article;
       });
-      return res.render('articles', { articles });
+      return res.json(articles);
     })
-    .catch(err => {
-      console.log(err);
-      return res.redirect('/');
-    });
-});
-
-app.get('/api/articles/', (req, res) => {
-  db.getArticles()
-    .then(articles => res.json(articles))
     .catch(err => {
       console.log(err);
       return res.json(err);

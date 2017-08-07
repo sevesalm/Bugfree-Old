@@ -48,14 +48,16 @@ module.exports = function init(params) {
   //          last_name,
   // ORDER BY timestamp DESC;
 
-  function getArticles() {
+  function getArticles(offset, limit) {
     return knex('articles')
       .select('articles.id', 'title', 'content', 'timestamp', 'first_name', 'last_name')
       .select(knex.raw('title, content, timestamp, first_name, last_name, array_agg(tag) as tags'))
       .leftJoin('article_tag', 'articles.id', 'article_tag.article_id')
       .join('users', 'users.id', 'articles.author_id')
       .groupBy('articles.id', 'first_name', 'last_name')
-      .orderBy('timestamp', 'desc');
+      .orderBy('timestamp', 'desc')
+      .offset(offset)
+      .limit(limit);
   }
 
   function insertArticle(article) {

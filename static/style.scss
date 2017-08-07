@@ -24,8 +24,6 @@ body {
 		}
 }
 
-
-
 html, body {
 	height: 100%;
 }
@@ -189,6 +187,9 @@ h1 {
 }
 
 .articles {
+	.button {
+		margin-bottom: 30px;
+	}
 	a.articles__item:hover{
 		text-decoration: none;
 		color: inherit;
