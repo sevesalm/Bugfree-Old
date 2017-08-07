@@ -81,7 +81,21 @@ module.exports = function init(params) {
   }
 
   function insertArticleTag(articleId, tags) {
-    return knex('article_tag').insert(createArticleTags(articleId, tags));
+    return knex('article_tag').insert(createArticleTags(articleId, tags)).returning('article_id');
+  }
+
+  function insertArticleWithTags(article, tags) {
+    if (tags.length === 0) {
+      return insertArticle(article);
+    }
+    return Promise.all([
+      insertArticle(article),
+      insertTags(tags),
+    ])
+      .then(values => {
+        const articleId = values[0][0];
+        return insertArticleTag(articleId, tags);
+      });
   }
 
   return {
@@ -91,8 +105,6 @@ module.exports = function init(params) {
     getProjects,
     getArticle,
     getArticles,
-    insertArticle,
-    insertTags,
-    insertArticleTag,
+    insertArticleWithTags,
   };
 };

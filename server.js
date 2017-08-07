@@ -154,23 +154,18 @@ function addPreWrapperDiv(article) {
 }
 
 app.post('/publish/', authorizeUser, (req, res) => {
-  const tags = req.body.tags.split(',');
+  let tags = [];
+  if (req.body.tags) {
+    tags = req.body.tags.split(',');
+  }
   const article = {
     title: req.body.title,
     author_id: req.user.id,
     content: addPreWrapperDiv(req.body.editor),
   };
 
-  let articleId = null;
-  Promise.all([
-    db.insertArticle(article),
-    db.insertTags(tags),
-  ])
-    .then(values => {
-      articleId = values[0];
-      return db.insertArticleTag(articleId, tags);
-    })
-    .then(() => res.redirect(`/articles/${articleId}`))
+  db.insertArticleWithTags(article, tags)
+    .then(articleId => res.redirect(`/articles/${articleId[0]}`))
     .catch(err => {
       console.log(err);
       return res.redirect('/');
