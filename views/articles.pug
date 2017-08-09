@@ -16,7 +16,6 @@ block scripts
                 const url='/api/articles?offset=' + offset + '&limit=' + limit;
                 $.getJSON(url)
                     .done(function(data) {
-                    console.log("succ")
                         moreButton.removeClass('btn-danger').addClass('btn-primary');
                         data.forEach(function(article) {
                             moreButton.text('Load more');
