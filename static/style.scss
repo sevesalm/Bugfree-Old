@@ -11,18 +11,7 @@ body {
 	background: #fff;
 }
 
-.bootstrap-tagsinput {
-	width: 100%;
-	.tag-label {
-		font-variant: small-caps;
-		// font-size: 12px;
-		font-weight: 700;
-		color: white;
-		background: rgb(188, 144, 107);
-		border-radius: 3px;
-		padding: 1px 5px 2px 5px;
-		}
-}
+
 
 html, body {
 	height: 100%;
@@ -186,18 +175,33 @@ h1 {
 	}
 }
 
+.bootstrap-tagsinput {
+	width: 100%;
+	.tag-label {
+		font-variant: small-caps;
+		// font-size: 12px;
+		font-weight: 400;
+		color: white;
+		background: rgb(188, 144, 107);
+		border-radius: 3px;
+		padding: 1px 5px 2px 5px;
+		letter-spacing: 0.5px;
+		}
+}
+
 .tags {
 	font-variant: small-caps;
 	margin-left: 5px;
-	margin-top: 5px;
 	font-size: 12px;
-	font-weight: 700;
+	font-weight: 400;
+	letter-spacing: 0.5px;
 	color: white;
 	.tag {
 		background: rgb(188, 144, 107);
 		border-radius: 3px;
 		padding: 1px 5px 2px 5px;
 		margin-right: 5px;
+		margin-top: 5px;
 		display: inline-block;
 	}
 }
@@ -209,14 +213,17 @@ h1 {
 	a.articles__item:hover{
 		text-decoration: none;
 		color: inherit;
-		background: rgba(150,150,150,0.2);
+		background: rgba(170,170,170,0.2);
 		display: block;
+		border: solid 1px #ddd;
+		border-radius: 3px;
+		padding: 10px;
 	}
 	&__item {
 		display: block;
 		color: inherit;
 		margin-bottom: 20px;
-		padding: 10px;
+		padding: 11px;
 
 		.title {
 			margin-top: 0px;
