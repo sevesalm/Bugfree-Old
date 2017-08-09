@@ -11,41 +11,53 @@ block scripts
     script(src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js')
     script.
         $(function () {
-            var offset=0;
-            var limit=10;
-            var moreButton = $('<button>').attr('id', 'moreButton').attr('type', 'button').addClass('btn btn-primary').text('Load more');
-
             function fetchArticles() {
-                var url='/api/articles?offset=' + offset + '&limit=' + limit;
-                $.getJSON(url, function(data) {
-                    data.forEach(function(article) {
-                        var a = $('<a>').addClass('articles__item').attr('href', '/articles/' + article.id);
-                        var h3 = $('<h3>').addClass('title').text(article.title);
-                        var details = $('<div>').addClass('details');
-                        var author = $('<div>').addClass('author').text(article.first_name + ' ' + article.last_name);
-                        var timestamp = $('<div>').addClass('time').text(article.timestamp);
-                        var tags = $('<div>').addClass('tags');
-                        var content = $('<div>').addClass('article__content').html(article.content);
-                        article.tags.forEach(function(tag) {
-                            tags.append($('<div>').addClass('tag').text(tag));
+                moreButton.html('Loading... <i class="fa fa-refresh fa-spin fa-fw"></i>');
+                const url='/api/articles?offset=' + offset + '&limit=' + limit;
+                $.getJSON(url)
+                    .done(function(data) {
+                    console.log("succ")
+                        moreButton.removeClass('btn-danger').addClass('btn-primary');
+                        data.forEach(function(article) {
+                            moreButton.text('Load more');
+                            const a = $('<a>').addClass('articles__item').attr('href', '/articles/' + article.id);
+                            const h3 = $('<h3>').addClass('title').text(article.title);
+                            const details = $('<div>').addClass('details');
+                            const author = $('<div>').addClass('author').text(article.first_name + ' ' + article.last_name);
+                            const timestamp = $('<div>').addClass('time').text(article.timestamp);
+                            const tags = $('<div>').addClass('tags');
+                            const content = $('<div>').addClass('article__content').html(article.content);
+                            article.tags.forEach(function(tag) {
+                                tags.append($('<div>').addClass('tag').text(tag));
+                            });
+                            details.append('By ', author, ' on ', timestamp, tags);
+                            a.append(h3, details, content);
+                            $('.button').before(a, $('<div>').addClass('border'));
                         });
-                        details.append('By ', author, ' on ', timestamp, tags);
-                        a.append(h3, details, content);
-                        $('.button').before(a, $('<div>').addClass('border'));
+
+                        offset += data.length;
+
+                        if (data.length != limit && $('#moreButton').is(':visible')) {
+                            $('#moreButton').hide();
+                        } else if (data.length == limit && !$('#moreButton').length) {
+                            $('.button').append(moreButton);
+                        } else if (data.length == limit && !$('#moreButton').is(':visible')) {
+                            $('.moreButton').show();
+                        }
+                    })
+                    .fail(function() {
+                        moreButton.removeClass('btn-primary').addClass('btn-danger').text('Retry');
+                        if (!$('#moreButton').length) {
+                            $('.button').append(moreButton);
+                        }
                     });
-
-                    offset += data.length;
-
-                    if (data.length != limit && $('#moreButton').length) {
-                        $('#moreButton').remove();
-                    } else if (data.length == limit && !$('#moreButton').length) {
-                        $('.button').append(moreButton);
-                        moreButton.on('click', function() {
-                            fetchArticles();
-                        });
-                    }
-                });
             }
+
+            let offset = 0;
+            const limit = 10;
+            const moreButton = $('<button>').attr('id', 'moreButton').attr('type', 'button').addClass('btn btn-primary').text('Load more').on('click', function() {
+                fetchArticles();
+            });
 
             fetchArticles();
 
