@@ -33,7 +33,10 @@ img.can-open{
 }
 
 .content  {
-	background: rgba(255, 255, 255, 0.7);
+	background: #fff;
+	@media screen and (min-width: 768px) {
+		background: rgba(255, 255, 255, 0.7);
+	}
 	max-width: 950px;
 	min-height: 100%;
 	height: auto !important; // Makes the content REALLY extend to bottom
