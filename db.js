@@ -30,8 +30,8 @@ module.exports = function init(params) {
   //          last_name;
   function getArticle(id) {
     return knex('articles')
-      .select('title', 'content', 'timestamp', 'first_name', 'last_name')
-      .select(knex.raw('title, content, timestamp, first_name, last_name, array_agg(tag) as tags'))
+      .select('title', 'content', 'first_name', 'last_name')
+      .select(knex.raw('TO_CHAR(timestamp, \'Month fmDD, YYYY\') as datetime, array_agg(tag) as tags'))
       .leftJoin('article_tag', 'articles.id', 'article_tag.article_id')
       .join('users', 'users.id', 'articles.author_id')
       .groupBy('articles.id', 'first_name', 'last_name')
@@ -50,8 +50,8 @@ module.exports = function init(params) {
 
   function getArticles(offset, limit) {
     return knex('articles')
-      .select('articles.id', 'title', 'content', 'timestamp', 'first_name', 'last_name')
-      .select(knex.raw('title, content, timestamp, first_name, last_name, array_agg(tag) as tags'))
+      .select('articles.id', 'title', 'content', 'first_name', 'last_name')
+      .select(knex.raw('TO_CHAR(timestamp, \'Month fmDD, YYYY\') as datetime, array_agg(tag) as tags'))
       .leftJoin('article_tag', 'articles.id', 'article_tag.article_id')
       .join('users', 'users.id', 'articles.author_id')
       .groupBy('articles.id', 'first_name', 'last_name')

@@ -23,24 +23,23 @@
     "body-parser": "^1.17.1",
     "cheerio": "^1.0.0-rc.2",
     "connect-redis": "^3.3.0",
-    "express": "^4.15.3",
-    "express-session": "^1.15.4",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
     "knex": "^0.13.0",
-    "moment": "^2.18.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "pg": "^7.0.2",
-    "pug": "latest",
-    "redis": "^2.7.1",
+    "pg": "^7.1.0",
+    "pug": "^2.0.0-rc.3",
+    "redis": "^2.8.0",
     "truncate-html": "^0.1.4"
   },
   "devDependencies": {
-    "chai": "^4.1.0",
+    "chai": "^4.1.1",
     "chai-http": "^3.0.0",
-    "eslint": "^4.3.0",
+    "eslint": "^4.4.1",
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-promise": "^3.5.0",
-    "mocha": "^3.4.2"
+    "mocha": "^3.5.0"
   }
 }

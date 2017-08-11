@@ -6,7 +6,6 @@ const RedisStore = require('connect-redis')(session);
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
-const moment = require('moment');
 const cheerio = require('cheerio');
 const truncateHtml = require('truncate-html');
 
@@ -174,7 +173,6 @@ app.post('/publish/', authorizeUser, (req, res) => {
 
 function formatArticle(item, truncate) {
   const newItem = item;
-  newItem.timestamp = moment(item.timestamp).format('LL');
   if (newItem.tags[0] == null) {
     newItem.tags = [];
   }

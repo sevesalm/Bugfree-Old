@@ -7,7 +7,7 @@ block content
             img.article__image.can-open(src='/static/me.jpg', alt='Picture of Severi Salminen')
             .article__info
                 h1.title= article.title
-                div.details By #[div.author #{article.first_name} #{article.last_name}] on #[div.time #{article.timestamp}]
+                div.details By #[div.author #{article.first_name} #{article.last_name}] on #[div.time #{article.datetime}]
                 .tags
                     each tag in article.tags
                         .tag #{tag}

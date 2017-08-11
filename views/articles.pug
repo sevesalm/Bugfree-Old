@@ -23,7 +23,7 @@ block scripts
                             const h3 = $('<h3>').addClass('title').text(article.title);
                             const details = $('<div>').addClass('details');
                             const author = $('<div>').addClass('author').text(article.first_name + ' ' + article.last_name);
-                            const timestamp = $('<div>').addClass('time').text(article.timestamp);
+                            const timestamp = $('<div>').addClass('time').text(article.datetime);
                             const tags = $('<div>').addClass('tags');
                             const content = $('<div>').addClass('article__content').html(article.content);
                             article.tags.forEach(function(tag) {
