@@ -2,8 +2,8 @@
 - hosts: [ prod ]
   become: true
   tasks:
-    - name: sync images
-      synchronize: src=../images dest=/var/www/html rsync_opts="--chown=www-data:www-data"
+    - name: sync favicons
+      synchronize: src=../assets/favicons/ dest=/var/www/html/images rsync_opts="--chown=www-data:www-data"
 
     - name: sync static
       synchronize: src=../static dest=/var/www/html rsync_opts="--chown=www-data:www-data"
