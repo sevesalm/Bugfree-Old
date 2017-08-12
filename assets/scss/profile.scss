@@ -1,0 +1,35 @@
+.profile {
+  img {
+    float: right;
+    width: 180px;
+    max-width: 25%;
+    height: auto;
+    border-radius: 10px;
+    margin: 10px;
+
+  }
+  .category>ul>li>ul {
+    list-style-type: none;
+  }
+  .degree {
+    font-weight: bold;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  .cv-icon {
+    float:left;
+    transition: transform 0.3s;
+    transform: scale(1);
+    .hovering {
+      transform: scale(1.2) !important;
+    }
+  }
+
+  .category {
+    margin-left: 4.5em;
+    margin-bottom: 3em;
+  }
+}

@@ -1,0 +1,60 @@
+@import 'article';
+@import 'articles';
+@import 'home';
+@import 'profile';
+@import 'projects';
+@import 'publish';
+
+body {
+  background-image: url('hex6.png');
+  background-attachment: fixed;
+  background-size: 400px auto;
+  padding-top: 50px;
+  font-family: 'Cabin', sans-serif;
+}
+
+html, body {
+  height: 100%;
+}
+
+nav .navbar-right a.username{
+  color: white;
+}
+
+img.can-open{
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  transform: scale(1.0);
+  transition: transform 0.3s;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+}
+
+.content  {
+  background: #fff;
+  @media screen and (min-width: 768px) {
+    background: rgba(255, 255, 255, 0.7);
+  }
+  max-width: 950px;
+  min-height: 100%;
+  height: auto !important; // Makes the content REALLY extend to bottom
+}
+
+.logo {
+  font-family: 'Patua One', cursive;
+}
+
+h1 {
+  font-size: 3.5em;
+  @media only screen and (max-width: 400px) {
+    font-size: 2.5em;
+  }
+}
+
+.border {
+  margin: 2em auto 2em;
+  width: 50%;
+  border-bottom: 1px solid #ddd;
+}

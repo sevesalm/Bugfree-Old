@@ -11,8 +11,8 @@
   "scripts": {
     "test": "mocha",
     "lint": "eslint .",
-    "sass": "sass static/style.scss:static/style.css",
-    "sass-watch": "sass --watch static/style.scss:static/style.css",
+    "sass": "sass assets/scss/main.scss:static/style.css",
+    "sass-watch": "sass --watch assets/scss/main.scss:static/style.css",
     "seed": "knex seed:run",
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",

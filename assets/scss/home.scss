@@ -1,0 +1,60 @@
+.home {
+  h1 {
+    font-size: 8em;
+    margin-bottom: 0em;
+
+    @media only screen and (max-width: 500px) {
+      font-size: 6em;
+    }
+    @media only screen and (max-width: 400px) {
+      font-size: 5.5em;
+    }
+
+  }
+  .quote{
+    margin-right: 15%;
+    float:right;
+    font-size: 1.5em;
+    font-style: italic;
+    @media only screen and (max-width: 400px) {
+      font-size: 1.2em;
+    }
+  }
+  .quote1, .quote2 {
+    -webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */
+        -ms-animation: fadein 3s; /* Internet Explorer */
+            animation: fadein 3s;
+    @keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+    @-webkit-keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+    }
+
+    opacity: 0;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+  }
+
+  .quote2 {
+    -webkit-animation-delay: 1.5s;
+    animation-delay: 1.5s;
+    margin:none;
+    float: none;
+  }
+
+  p {
+    margin-top: 5em;
+    font-size: 1.2em;
+  }
+
+  #wordle {
+    width: 75%;
+    margin: 0 auto;
+    margin-top: 4em;
+  }
+}

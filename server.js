@@ -109,7 +109,7 @@ function authorizeUser(req, res, next) {
 }
 
 app.get('/', (req, res) => {
-  res.render('main');
+  res.render('home');
 });
 
 app.get('/login/', (req, res) => {

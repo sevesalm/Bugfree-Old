@@ -1,7 +1,7 @@
 node_modules/
 .sass-cache/
 uploads/
-assets/
+private_assets/
 ansible/hosts.yaml
 dump.rdb
 .DS_Store
