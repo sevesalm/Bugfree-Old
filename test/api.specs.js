@@ -1,8 +1,8 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const knexfile = require('../knexfile');
+const knexfile = require('../server/knexfile');
 const knex = require('knex')(knexfile.test);
-const server = require('../server');
+const server = require('../server/server');
 
 chai.use(chaiHttp);
 const expect = chai.expect;

@@ -9,7 +9,7 @@ module.exports = {
       password: process.env.DB_PASSWORD,
     },
     seeds: {
-      directory: path.join(__dirname, '/seeds/development'),
+      directory: path.join(__dirname, '../seeds/development'),
     },
   },
   production: {
@@ -28,7 +28,7 @@ module.exports = {
       password: '',
     },
     seeds: {
-      directory: path.join(__dirname, '/seeds/test'),
+      directory: path.join(__dirname, '../seeds/test'),
     },
   },
 };

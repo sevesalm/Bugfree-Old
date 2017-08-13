@@ -19,7 +19,7 @@ const knex = require('knex')(knexfile[environment]);
 const db = require('./db')({ knex, environment });
 
 if (environment !== 'production') {
-  app.use(express.static(__dirname));
+  app.use(express.static(__dirname + '/../'));
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -1,6 +1,6 @@
 {
   "name": "Bugfree",
-  "main": "server.js",
+  "main": "server/server.js",
   "version": "0.0.2",
   "description": "Bugfree site",
   "license": "AGPL-3.0",
@@ -9,13 +9,14 @@
     "url": "https://github.com/sevesalm/Bugfree"
   },
   "scripts": {
+    "start": "node server/server.js",
     "test": "mocha",
     "lint": "eslint .",
     "sass": "sass assets/scss/main.scss:static/style.css",
     "sass-watch": "sass --watch assets/scss/main.scss:static/style.css",
-    "seed": "knex seed:run",
-    "migrate": "knex migrate:latest",
-    "rollback": "knex migrate:rollback",
+    "seed": "knex --knexfile server/knexfile.js seed:run",
+    "migrate": "knex --knexfile server/knexfile.js migrate:latest",
+    "rollback": "knex --knexfile server/knexfile.js migrate:rollback",
     "deploy": "ansible-playbook -i ansible/hosts.yaml ansible/deploy.yaml"
   },
   "dependencies": {
