@@ -24,3 +24,6 @@ services:
 
 before_script:
   - psql -c 'create database bugfree_test;' -U postgres
+
+script:
+  - npm run lint
