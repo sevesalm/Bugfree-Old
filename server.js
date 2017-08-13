@@ -18,8 +18,11 @@ const environment = app.get('env');
 const knex = require('knex')(knexfile[environment]);
 const db = require('./db')({ knex, environment });
 
+if (environment !== 'production') {
+  app.use(express.static(__dirname));
+}
+
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
 app.set('view engine', 'pug');
 
 const redisClient = redis.createClient();
