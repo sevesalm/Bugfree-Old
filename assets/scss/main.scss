@@ -9,7 +9,6 @@ body {
   background-image: url('hex6.png');
   background-attachment: fixed;
   background-size: 400px auto;
-  padding-top: 50px;
   font-family: 'Cabin', sans-serif;
 }
 
@@ -33,11 +32,15 @@ img.can-open{
 }
 
 .content  {
+  overflow: auto;
   background: #fff;
   @media screen and (min-width: 768px) {
     background: rgba(255, 255, 255, 0.7);
+    padding: 50px 100px 0px;
   }
-  max-width: 950px;
+  padding: 50px 30px 0px;
+  max-width: 900px;
+  margin: 0 auto;
   min-height: 100%;
   height: auto !important; // Makes the content REALLY extend to bottom
 }

@@ -64,8 +64,9 @@
       content: "C";
   }
   div.article__code-block {
+    margin: 1em 0;
     @media screen and (min-width: 768px) {
-      margin: 0 2em;
+      margin: 1em 2em;
     }
     position: relative;
     &::before {
