@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const redis = require('redis');
 const bodyParser = require('body-parser');
@@ -19,7 +20,7 @@ const knex = require('knex')(knexfile[environment]);
 const db = require('./db')({ knex, environment });
 
 if (environment !== 'production') {
-  app.use(express.static(__dirname + '/../'));
+  app.use(express.static(path.join(__dirname, '..')));
 }
 
 app.use(bodyParser.urlencoded({ extended: true }));
