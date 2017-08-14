@@ -6,11 +6,11 @@ block content
         .article__heading
             img.article__image.can-open(src='/static/me.jpg', alt='Picture of Severi Salminen')
             .article__info
-                h1.title= article.title
-                .tags
+                h1.article__title= article.title
+                .article__tags
                     each tag in article.tags
-                        .tag #{tag}
-                div.details By #[div.author #{article.first_name} #{article.last_name}] on #[div.time #{article.datetime}]
+                        .article__tag #{tag}
+                div.article__details By #[div.article__author #{article.first_name} #{article.last_name}] on #[div.article__time #{article.datetime}]
 
         .article__content
             != article.content

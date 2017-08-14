@@ -1,6 +1,9 @@
 .article {
   margin-top: 20px;
-  position: relative;
+
+  &__heading {
+    display: flex;
+  }
 
   &__image {
     width: 120px;
@@ -12,34 +15,48 @@
     }
   }
 
-  &__heading {
-    display: flex;
-  }
-
   &__info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
 
-    .title {
-      margin-top: 0px;
-      margin-bottom: 5px;
-    }
+  &__title {
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
 
-    .details {
-      margin-top: 2px;
-      color: #666;
-      font-size: 12px;
+  &__tags {
+    font-variant: small-caps;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: white;
+  }
 
-      .author, .time {
-        margin-right: 3px;
-        margin-left: 3px;
-        font-variant: small-caps;
-        display: inline-block;
-        color: #000;
-        font-weight: 700;
-      }
-    }
+  &__tag {
+    background: rgb(188, 144, 107);
+    border-radius: 3px;
+    padding: 1px 5px 2px 5px;
+    margin-right: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    display: inline-block;
+  }
+
+  &__details {
+    margin-top: 2px;
+    color: #666;
+    font-size: 12px;
+  }
+
+  &__author, &__time {
+    margin-right: 3px;
+    margin-left: 3px;
+    font-variant: small-caps;
+    display: inline-block;
+    color: #000;
+    font-weight: 700;
   }
 
   div.language-javascript::before {
@@ -84,19 +101,4 @@
   }
 }
 
-.tags {
-  font-variant: small-caps;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  color: white;
-  .tag {
-    background: rgb(188, 144, 107);
-    border-radius: 3px;
-    padding: 1px 5px 2px 5px;
-    margin-right: 5px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    display: inline-block;
-  }
-}
+
