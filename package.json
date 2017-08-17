@@ -27,9 +27,9 @@
     "express": "^4.15.4",
     "express-session": "^1.15.5",
     "knex": "^0.13.0",
-    "passport": "^0.3.2",
+    "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.1.0",
+    "pg": "^7.1.2",
     "pug": "^2.0.0-rc.3",
     "redis": "^2.8.0",
     "truncate-html": "^0.1.4"
