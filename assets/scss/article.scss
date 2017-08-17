@@ -6,7 +6,7 @@
   }
 
   &__image {
-    width: 120px;
+    width: 100px;
     height: 100%;
     border-radius: 5px;
     margin-right: 10px;
@@ -24,6 +24,7 @@
   &__title {
     margin-top: 0px;
     margin-bottom: 5px;
+    font-size: 3em;
   }
 
   &__tags {
