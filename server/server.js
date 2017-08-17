@@ -8,7 +8,6 @@ const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
 const cheerio = require('cheerio');
-const truncateHtml = require('truncate-html');
 
 const app = express();
 console.log(`Environment: ${app.get('env')}`);
@@ -175,33 +174,15 @@ app.post('/publish/', authorizeUser, (req, res) => {
     });
 });
 
-function formatArticle(item, truncate) {
-  const newItem = item;
-  if (newItem.tags[0] == null) {
-    newItem.tags = [];
-  }
-  if (truncate) {
-    newItem.content = truncateHtml(newItem.content, 50, { byWords: true, excludes: ['h3'] });
-  }
-  return newItem;
-}
-
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
   db.getArticle(articleId)
-    .then(item => {
-      if (item == null) {
-        throw new Error('No such article');
-      }
-      const article = formatArticle(item, false);
-      return res.render('article', { article });
-    })
+    .then(article => res.render('article', { article }))
     .catch(err => {
       console.log(err);
       return res.redirect('/');
     });
 });
-
 
 app.get('/articles/', (req, res) =>
   res.render('articles')
@@ -217,13 +198,7 @@ app.get('/api/articles/', (req, res) => {
     limit = parseInt(req.query.limit, 10);
   }
   db.getArticles(offset, limit)
-    .then(articles => {
-      articles.map(item => {
-        const article = formatArticle(item, true);
-        return article;
-      });
-      return res.json(articles);
-    })
+    .then(articles => res.json(articles))
     .catch(err => {
       console.log(err);
       return res.status(500).json(err);

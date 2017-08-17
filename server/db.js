@@ -1,3 +1,5 @@
+const truncateHtml = require('truncate-html');
+
 module.exports = function init(params) {
   const { knex, environment } = params;
   // In test environment migrate in test files
@@ -17,8 +19,20 @@ module.exports = function init(params) {
   function getProject(id) {
     return knex('projects').select().where({ id }).first();
   }
+
   function getProjects() {
     return knex('projects').select();
+  }
+
+  function formatArticle(item, truncate) {
+    const newItem = item;
+    if (newItem.tags[0] == null) {
+      newItem.tags = [];
+    }
+    if (truncate) {
+      newItem.content = truncateHtml(newItem.content, 50, { byWords: true, excludes: ['h3'] });
+    }
+    return newItem;
   }
 
   // SELECT title, content, timestamp, first_name, last_name, array_agg(article_tag.tag) AS tags
@@ -36,7 +50,14 @@ module.exports = function init(params) {
       .join('users', 'users.id', 'articles.author_id')
       .groupBy('articles.id', 'first_name', 'last_name')
       .where({ 'articles.id': id })
-      .first();
+      .first()
+      .then(item => {
+        if (item == null) {
+          throw new Error('No such article');
+        }
+        const article = formatArticle(item, false);
+        return Promise.resolve(article);
+      });
   }
 
   // SELECT title, content, timestamp, first_name, last_name, array_agg(article_tag.tag) AS tags
@@ -57,7 +78,14 @@ module.exports = function init(params) {
       .groupBy('articles.id', 'first_name', 'last_name')
       .orderBy('timestamp', 'desc')
       .offset(offset)
-      .limit(limit);
+      .limit(limit)
+      .then(articles => {
+        articles.map(item => {
+          const article = formatArticle(item, true);
+          return article;
+        });
+        return Promise.resolve(articles);
+      });
   }
 
   function insertArticle(article) {
