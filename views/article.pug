@@ -3,17 +3,43 @@ block head
     link(rel='stylesheet', type='text/css', href='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/themes/prism.min.css')
 block content
     .article
-        .article__heading
-            img.article__image.can-open(src='/static/me.jpg', alt='Picture of Severi Salminen')
-            .article__info
-                h1.article__title= article.title
-                .article__tags
-                    each tag in article.tags
-                        .article__tag #{tag}
-                div.article__details By #[div.article__author #{article.first_name} #{article.last_name}] on #[div.article__time #{article.datetime}]
-
-        .article__content
-            != article.content
-
     .border
     script(src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.6.0/prism.min.js')
+    script.
+        $(function () {
+            function fetchArticle(id) {
+                const url='/api/articles/' + id;
+                $.getJSON(url)
+                    .done(function(article) {
+                        const article__heading = $('<div>').addClass('article__heading');
+                        const img = $('<img>').addClass('article__image can-open').attr('src', '/static/me.jpg').attr('alt', 'Picture of Severi Salminen');
+
+                        const article__info = $('<div>').addClass('article__info');
+                        const h1 = $('<h1>').addClass('article__title').text(article.title);
+                        const article__tags = $('<div>').addClass('tags');
+                        article.tags.forEach(function(tag) {
+                            article__tags.append($('<div>').addClass('tag').text(tag));
+                        });
+                        const article__details = $('<div>').addClass('article__details');
+                        const author = $('<div>').addClass('article__author').text(article.first_name + ' ' + article.last_name);
+                        const timestamp = $('<div>').addClass('article__time').text(article.datetime);
+                        article__details.append('By ', author, ' on ', timestamp);
+                        article__info.append(h1, article__tags, article__details);
+                        article__heading.append(img, article__info);
+
+                        const article__content = $('<div>').addClass('article__content').html(article.content);
+                        article__content.find('pre[class^="language-"]').addClass('article__code-block');
+                        article__content.find('.article__code-block').wrap(function () {
+                            return $('<div>').addClass($(this).attr('class'));
+                        });
+
+                        $('.article').append(article__heading, article__content);
+
+                        Prism.highlightAll();
+                    })
+                    .fail(function() {
+                        console.log("Error fetching the article!");
+                    });
+            }
+            fetchArticle(#{articleId});
+        });

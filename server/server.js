@@ -7,7 +7,6 @@ const RedisStore = require('connect-redis')(session);
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const PassportStrategy = require('passport-local').Strategy;
-const cheerio = require('cheerio');
 
 const app = express();
 console.log(`Environment: ${app.get('env')}`);
@@ -146,15 +145,6 @@ app.get('/publish/', authorizeUser, (req, res) => {
   res.render('publish');
 });
 
-function addPreWrapperDiv(article) {
-  const $ = cheerio.load(article);
-  const temp = cheerio.load($.html('pre'));
-  const language = $('pre').attr('class');
-  $('pre').replaceWith($('<div>').append(temp('pre').addClass('article__code-block')).addClass('article__code-block').addClass(language));
-  const result = $('body');
-  return result.html();
-}
-
 app.post('/publish/', authorizeUser, (req, res) => {
   let tags = [];
   if (req.body.tags) {
@@ -163,7 +153,7 @@ app.post('/publish/', authorizeUser, (req, res) => {
   const article = {
     title: req.body.title,
     author_id: req.user.id,
-    content: addPreWrapperDiv(req.body.editor),
+    content: req.body.editor,
   };
 
   db.insertArticleWithTags(article, tags)
@@ -176,12 +166,7 @@ app.post('/publish/', authorizeUser, (req, res) => {
 
 app.get('/articles/:articleId', (req, res) => {
   const articleId = req.params.articleId;
-  db.getArticle(articleId)
-    .then(article => res.render('article', { article }))
-    .catch(err => {
-      console.log(err);
-      return res.redirect('/');
-    });
+  res.render('article', { articleId });
 });
 
 app.get('/articles/', (req, res) =>
@@ -211,7 +196,7 @@ app.get('/api/articles/:articleId', (req, res) => {
     .then(articles => res.json(articles))
     .catch(err => {
       console.log(err);
-      return res.json(err);
+      return res.status(500).json(err);
     });
 });
 
