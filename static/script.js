@@ -1,6 +1,6 @@
 // Open modal on any image click
 $(function() {
-  $('img.can-open').on('click', function () {
+  $('body').on('click', 'img.can-open', function () {
     const $img = $('<img>').addClass('img-responsive').attr('alt', 'Image preview').attr('src', $(this).attr('src'));
     $('.modal-body').append($img);
     $('#image-modal').modal('show');
