@@ -36,4 +36,5 @@
       environment:
         DB_USER: "{{db_user}}"
         DB_PASSWORD: "{{db_password}}"
+        SESSION_SECRET: "{{session_secret}}"
 

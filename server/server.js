@@ -32,9 +32,13 @@ redisClient.on('ready', () => {
   console.log('Redis: ready');
 });
 
+if (!process.env.SESSION_SECRET) {
+  console.log('Warning: using default session secret!');
+}
+
 const sessionConf = {
   store: new RedisStore({ client: redisClient }),
-  secret: 'Bugfree is c00l!',
+  secret: process.env.SESSION_SECRET || 'Bugfree is c00l!',
   resave: false,
   saveUninitialized: false,
   name: 'connect.sid',
