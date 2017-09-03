@@ -21,6 +21,7 @@
       copy: src=../{{item}} dest=/var/www/html/{{item | basename}} owner=www-data group=www-data
       with_items:
         - package.json
+        - package-lock.json
         - browserconfig.xml
         - manifest.json
         - ansible/ecosystem.config.js
