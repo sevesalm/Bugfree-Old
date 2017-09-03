@@ -60,7 +60,7 @@ passport.use(new PassportStrategy((username, password, cb) => {
     .then(item => {
       if (item) {
         user = item;
-        const hash = user.hash;
+        const { hash } = user;
         return bcrypt.compare(password, hash);
       }
       cb(null, false);
@@ -88,9 +88,7 @@ passport.deserializeUser((id, cb) =>
       }
       throw new Error('deserializeUser: user not found!');
     })
-    .catch(err => cb(err)
-    )
-);
+    .catch(err => cb(err)));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -165,13 +163,12 @@ app.post('/publish/', authorizeUser, (req, res) => {
 });
 
 app.get('/articles/:articleId', (req, res) => {
-  const articleId = req.params.articleId;
+  const { articleId } = req.params;
   res.render('article', { articleId });
 });
 
 app.get('/articles/', (req, res) =>
-  res.render('articles')
-);
+  res.render('articles'));
 
 app.get('/api/articles/', (req, res) => {
   let offset = 0;
@@ -191,7 +188,7 @@ app.get('/api/articles/', (req, res) => {
 });
 
 app.get('/api/articles/:articleId', (req, res) => {
-  const articleId = req.params.articleId;
+  const { articleId } = req.params;
   db.getArticle(articleId)
     .then(articles => res.json(articles))
     .catch(err => {
@@ -207,7 +204,7 @@ app.get('/api/projects/', (req, res) => {
 });
 
 app.get('/api/projects/:projectId', (req, res) => {
-  const projectId = req.params.projectId;
+  const { projectId } = req.params;
   db.getProject(projectId)
     .then(project => res.json(project))
     .catch(err => res.json({ data: err, status: 500 }));

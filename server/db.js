@@ -106,8 +106,7 @@ module.exports = function init(params) {
       ({
         article_id: parseInt(id, 10),
         tag: item,
-      })
-    );
+      }));
   }
 
   function insertArticleTag(articleId, tags) {
