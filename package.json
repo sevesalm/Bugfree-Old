@@ -28,16 +28,16 @@
     "knex": "^0.13.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "pg": "^7.1.2",
+    "pg": "^7.2.0",
     "pug": "^2.0.0-rc.3",
     "redis": "^2.8.0",
     "truncate-html": "^0.1.4"
   },
   "devDependencies": {
-    "chai": "^4.1.1",
+    "chai": "^4.1.2",
     "chai-http": "^3.0.0",
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint": "^4.6.0",
+    "eslint-config-airbnb-base": "^12.0.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-promise": "^3.5.0",
     "mocha": "^3.5.0"
