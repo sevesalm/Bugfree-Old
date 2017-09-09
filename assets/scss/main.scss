@@ -1,9 +1,14 @@
+$breakpoint: 800px;
+
+
 @import 'article';
 @import 'articles';
 @import 'home';
 @import 'profile';
 @import 'projects';
 @import 'publish';
+@import 'nav';
+
 
 body {
   background-image: url('hex6.png');
@@ -14,10 +19,6 @@ body {
 
 html, body {
   height: 100%;
-}
-
-nav .navbar-right a.username{
-  color: white;
 }
 
 img.can-open{
@@ -34,7 +35,7 @@ img.can-open{
 .content  {
   overflow: auto;
   background: #fff;
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: $breakpoint) {
     background: rgba(255, 255, 255, 0.7);
     padding: 50px 100px 0px;
   }

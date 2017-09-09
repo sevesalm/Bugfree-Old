@@ -1,0 +1,67 @@
+.my-navbar {
+  position: fixed;
+  width: 100%;
+  background: black;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1;
+
+  a {
+    display: block;
+    color: #aaa;
+    margin-left: 20px;
+    padding: 5px 0;
+  }
+
+  a.my-navbar__username {
+    color: white;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: white;
+  }
+
+  &__left, &__right {
+    align-items: center;
+    display: flex;
+  }
+
+  &__logo {
+    font-family: 'Patua One', cursive;
+    font-size: 200%;
+    margin-right: 0.5em;
+  }
+
+  &__toggle {
+    &:hover {
+      color: #ddd;
+      cursor: pointer;
+    }
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    display: none;
+    color: #555;
+  }
+}
+
+@media screen and (max-width: $breakpoint) {
+  .my-navbar, .my-navbar__left, .my-navbar__right {
+    display: block;
+  }
+
+  a.my-navbar__link--hidden {
+    display: none;
+  }
+
+  .my-navbar {
+    padding: 0;
+  }
+
+  .my-navbar__toggle {
+    display: block;
+  }
+}

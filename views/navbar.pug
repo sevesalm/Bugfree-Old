@@ -1,25 +1,13 @@
-nav.navbar.navbar-inverse.navbar-fixed-top
-    .container-fluid
-        .navbar-header
-            button.navbar-toggle.collapset(type='button', data-toggle='collapse', data-target='#nav-collapse', aria-expanded='false')
-                span.sr-only Toggle navigation
-                span.icon-bar
-                span.icon-bar
-                span.icon-bar
-            a.navbar-brand.logo(href='/') Bugfree
-        .collapse.navbar-collapse#nav-collapse
-            ul.nav.navbar-nav
-                li
-                    a(href='/articles/') Blog
-                li
-                    a(href='/projects/') Projects
-                li
-                    a(href='/profile/') About me
-            if full_name
-                ul.nav.navbar-nav.navbar-right
-                    li
-                        a(href='/publish/') New post
-                    li
-                        a.username(href='/profile/') #{full_name}
-                    li
-                        a(href='/logout/') #[span.glyphicon.glyphicon-log-out]
+nav.my-navbar
+    .my-navbar__toggle
+        i.fa.fa-2x.fa-bars(aria-hidden="true")
+    .my-navbar__left
+        a.my-navbar__logo(href='/') Bugfree
+        a.my-navbar__link.my-navbar__link--hidden(href='/articles/') Blog
+        a.my-navbar__link.my-navbar__link--hidden(href='/projects/') Projects
+        a.my-navbar__link.my-navbar__link--hidden(href='/profile/') About me
+    if full_name
+        .my-navbar__right
+            a.my-navbar__link.my-navbar__link--hidden(href='/publish/') New post
+            a.my-navbar__link.my-navbar__link--hidden.my-navbar__username(href='/profile/') #{full_name}
+            a.my-navbar__link.my-navbar__link--hidden(href='/logout/') #[span.glyphicon.glyphicon-log-out]

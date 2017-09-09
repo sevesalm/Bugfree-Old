@@ -19,4 +19,8 @@ $(function() {
   }, function () {
     $('i', this).removeClass('hovering');
   });
+
+  $('.my-navbar__toggle').click(function () {
+    $('.my-navbar__link').toggleClass('my-navbar__link--hidden');
+  });
 });
