@@ -3,22 +3,25 @@ block head
     script(src='https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js')
 block content
     h1.text-center New post
-    form.form-horizontal(method='post')
-        .form-group
-            label.col-sm-2.control-label(for='editorTitle') Title
-            .col-sm-10
-                input.form-control#editorTitle(type='text' name='title')
-        .form-group
-            label.col-sm-2.control-label(for='editorTags') Tags
-            .col-sm-10
-                input.form-control#editorTags(type='text' name='tags' data-role='tagsinput')
-        .form-group
-            label.col-sm-2.control-label(for='editorContent') Content
-            .editorContent.col-sm-10
+    form#publish-form(method='post')
+        .form__field
+            .form__label
+                label(for='title-input') Title
+            .form__input
+                input#title-input(type='text' name='title')
+        .form__field
+            .form__label
+                label(for='tags-input') Tags
+            .form__input
+                input#tag-input(type='text')
+                .tags
+        .form__field
+            .form__label Content
+            .editorContent.form__input
                 #editor
-        .form-group
-            .col-sm-12
-                button.btn.btn-primary.pull-right(type='submit') Submit
+        input#tags-input(type='hidden' name='tags')
+        .form__submit
+            button.button_basic(type='submit') Submit
 
 block scripts
     script.
@@ -44,8 +47,18 @@ block scripts
                 ],
         });
 
-        $('#editorTags').tagsinput({
-            tagClass: function(item) {
-                return 'tag-label';
-            }
+        $(function() {
+            const tags = [];
+            $('#tag-input').on("keypress", function(e) {
+                const tag = $('#tag-input').val();
+                if (e.which === 13 && tag) {
+                    tags.push(tag);
+                    $('.tags').append($('<div class="tag">').text(tag));
+                    $('#tag-input').val('');
+                    return false;
+                }
+            });
+            $('#publish-form').submit(function () {
+                $('#tags-input').val(tags.join(','));
+            })
         });

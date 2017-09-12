@@ -1,6 +1,5 @@
 $breakpoint: 800px;
 
-
 @import 'article';
 @import 'articles';
 @import 'home';
@@ -8,17 +7,76 @@ $breakpoint: 800px;
 @import 'projects';
 @import 'publish';
 @import 'nav';
+@import 'forms';
 
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+}
 
 body {
+  font-family: 'Cabin', sans-serif;
+  line-height: 1.45;
+  font-weight: 400;
+  color: #333;
+  margin: 0;
   background-image: url('hex6.png');
   background-attachment: fixed;
   background-size: 400px auto;
-  font-family: 'Cabin', sans-serif;
 }
 
 html, body {
   height: 100%;
+}
+
+p { margin-bottom: 1.3em; }
+
+h1, h2, h3, h4 {
+  margin: 1.414em 0 0.5em;
+  font-weight: inherit;
+  line-height: 1.2;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 3.998em;
+}
+
+h2 {font-size: 2.827em;}
+
+h3 {font-size: 1.999em;}
+
+h4 {font-size: 1.414em;}
+
+small, .font_small {font-size: 0.707em;}
+
+@media screen and (max-width: $breakpoint) {
+  h1 {
+    margin-top: 0;
+    font-size: 3.157em;
+  }
+
+  h2 {font-size: 2.369em;}
+
+  h3 {font-size: 1.777em;}
+
+  h4 {font-size: 1.333em;}
+
+  small, .font_small {font-size: 0.75em;}
+}
+
+button, input, textarea, select{
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+
+a, a:visited {
+  text-decoration: none;
 }
 
 img.can-open{
@@ -30,6 +88,10 @@ img.can-open{
     cursor: pointer;
     transform: scale(1.05);
   }
+}
+
+.text-center {
+  text-align: center;
 }
 
 .content  {
@@ -50,15 +112,38 @@ img.can-open{
   font-family: 'Patua One', cursive;
 }
 
-h1 {
-  font-size: 3.5em;
-  @media only screen and (max-width: 400px) {
-    font-size: 2.5em;
-  }
-}
-
 .border {
   margin: 2em auto 2em;
   width: 50%;
   border-bottom: 1px solid #ddd;
+}
+
+
+$button_basic-color: #337ab7;
+
+button.button_basic {
+  border: solid 1px darken($button_basic-color, 10%);
+  border-radius: 3px;
+  padding: 5px 15px;
+  background: $button_basic-color;
+  color: white;
+  transition: border 0.15s, background-color 0.15s;
+}
+
+button.button_basic:hover {
+  cursor: pointer;
+  border: solid 1px darken($button_basic-color, 20%);
+  background: darken($button_basic-color, 10%);
+}
+
+$button_warning-color: #d9534f;
+
+
+button.button_warning {
+    border: solid 1px darken($button_warning-color, 10%);
+    background: $button_warning-color;
+}
+button.button_warning:hover {
+    border: solid 1px darken($button_warning-color, 20%);
+    background: darken($button_warning-color, 10%);
 }

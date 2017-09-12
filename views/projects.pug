@@ -3,19 +3,16 @@ block content
 	.projects
 		h1.text-center Projects
 		each project in projects
-			.project.row
-				.row
-					.col-sm-8.col-sm-offset-4
-						h3= project.title
-				.row
-					.col-sm-4
-						img.img-responsive.can-open.center-block(src=project.image_url, alt='Bugfree screenshot')
-					.col-sm-8
-						p!= project.content
-						if project.source_url
-							h5
-								a(href=project.source_url) Source
-						if project.demo_url
-							h5
-								a(href=project.demo_url) Demo
+			.project
+				.project__image(style='background-image: url(' + project.image_url + ')')
+					//- img.can-open(src=project.image_url, alt='Bugfree screenshot')
+				div
+					h3= project.title
+					p!= project.content
+					if project.source_url
+						h5
+							a(href=project.source_url) Source
+					if project.demo_url
+						h5
+							a(href=project.demo_url) Demo
 			.border

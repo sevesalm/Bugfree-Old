@@ -16,7 +16,7 @@ block scripts
                 const url='/api/articles?offset=' + offset + '&limit=' + limit;
                 $.getJSON(url)
                     .done(function(data) {
-                        moreButton.removeClass('btn-danger').addClass('btn-primary');
+                        moreButton.removeClass('button_warning');
                         data.forEach(function(article) {
                             moreButton.text('Load more');
                             const a = $('<a>').addClass('articles__item').attr('href', '/articles/' + article.id);
@@ -45,7 +45,7 @@ block scripts
                         }
                     })
                     .fail(function() {
-                        moreButton.removeClass('btn-primary').addClass('btn-danger').text('Retry');
+                        moreButton.addClass('button_warning').text('Retry');
                         if (!$('#moreButton').length) {
                             $('.button').append(moreButton);
                         }
@@ -54,7 +54,7 @@ block scripts
 
             let offset = 0;
             const limit = 10;
-            const moreButton = $('<button>').attr('id', 'moreButton').attr('type', 'button').addClass('btn btn-primary').text('Load more').on('click', function() {
+            const moreButton = $('<button>').attr('id', 'moreButton').attr('type', 'button').addClass('button_basic').text('Load more').on('click', function() {
                 fetchArticles();
             });
 

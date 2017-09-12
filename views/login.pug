@@ -1,15 +1,16 @@
 extends base
 block content
     h1.text-center Login
-    form.form-horizontal(action='/login/', method='post')
-        .form-group
-            label.col-sm-2.col-sm-offset-2.control-label(for='inputUsername') Username
-            .col-sm-6
-                input#inputUsername.form-control(type='username', name='username', placeholder='Username')
-        .form-group
-            label.col-sm-2.col-sm-offset-2.control-label(for='inputPassword') Password
-            .col-sm-6
-                input#inputPassword.form-control(type='password', name='password', placeholder='Password')
-        .form-group
-            .col-sm-offset-4.col-sm-8
-                button.btn.btn-primary(type='submit') Log in
+    form(action='/login/', method='post')
+        .form__field
+            .form__label
+                label(for='username-input') Username
+            .form__input
+                input#username-input(type='text' name='username', placeholder='Username')
+        .form__field
+            .form__label
+                label(for='password-input') Password
+            .form__input
+                input#password-input(type='password' name='password', placeholder='Password')
+        .form__submit
+            button.button_basic(type='submit') Log in

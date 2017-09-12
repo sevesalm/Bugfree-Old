@@ -19,20 +19,23 @@
   .button {
     margin-bottom: 30px;
   }
-  a.articles__item:hover{
-    text-decoration: none;
-    color: inherit;
-    background: rgba(170,170,170,0.2);
-    display: block;
-    border: solid 1px #ddd;
-    border-radius: 3px;
-    padding: 10px;
+  a.articles__item {
+    border: solid 1px rgba(0,0,0,0);
+    transition: background 0.15s, border ease-out 0.15s;
+    &:hover {
+      text-decoration: none;
+      color: inherit;
+      background: rgba(170,170,170,0.2);
+      display: block;
+      border: solid 1px #ddd;
+      border-radius: 3px;
+    }
   }
   &__item {
     display: block;
     color: inherit;
     margin-bottom: 20px;
-    padding: 11px;
+    padding: 10px;
 
     .title {
       margin-top: 0px;

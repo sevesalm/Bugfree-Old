@@ -1,0 +1,42 @@
+.form__field {
+    @media screen and (min-width: $breakpoint) {
+        display: flex;
+        align-items: flex-start;
+    }
+    margin-bottom: 0.5em;
+}
+
+.form__label {
+    font-weight: 700;
+    padding: 5px 20px 5px 0px;
+    @media screen and (min-width: $breakpoint) {
+        text-align: right;
+        width: 8em;
+    }
+}
+
+.form__input, .form__input input {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.form__input input {
+    font-size: 14px;
+    padding: 5px 10px;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.1);
+    transition: box-shadow .25s;
+}
+
+.form__input input:focus {
+    border-color: #88f;
+    outline: 0;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.075), 0 0 8px #88f;
+}
+.form__submit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+

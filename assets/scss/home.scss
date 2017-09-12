@@ -1,7 +1,8 @@
 .home {
   h1 {
     font-size: 8em;
-    margin-bottom: 0em;
+    margin: 0;
+    font-weight: 500;
 
     @media only screen and (max-width: 500px) {
       font-size: 6em;
@@ -53,6 +54,7 @@
   }
 
   #wordle {
+    display: block;
     width: 75%;
     margin: 0 auto;
     margin-top: 4em;

@@ -1,15 +1,22 @@
 .projects {
-  h1 {
-    margin-bottom: 40px;
-  }
   .project {
-    img {
-      border-radius: 10px;
-      max-height: 200px;
+    display: flex;
+    h3, h5 {
+      margin: 10px 0;
     }
-
-    h3 {
-      margin-top: 0;
+    &__image {
+      background: url('/static/agriscore.png') no-repeat center center;
+      background-size: cover;
+      min-width: 30%;
+      height: 150px;
+      margin-right: 20px;
+      border-radius: 5px;
+      border: solid 1px #ccc;
+    }
+    img {
+      border-radius: 5px;
+      max-height: 200px;
+      margin-right: 20px;
     }
   }
 }
