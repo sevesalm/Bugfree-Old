@@ -23,7 +23,7 @@
     float:left;
     transition: transform 0.3s;
     transform: scale(1);
-    .hovering {
+    &:hover {
       transform: scale(1.2) !important;
     }
   }
