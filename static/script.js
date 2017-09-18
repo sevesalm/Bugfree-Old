@@ -2,8 +2,6 @@
 $(function() {
 
   $('body').on('click', 'img.can-open', function () {
-    // const $img = $('<img>').addClass('modal__image').attr('alt', 'Image preview').attr('src', $(this).attr('src'));
-    // $('.modal__body').html($img);
     const $img = $('<div class="modal__image">').css('background-image', 'url(' + $(this).attr('src') + ')');
     $('.modal__body').html($img);
     $('#image-modal').show();

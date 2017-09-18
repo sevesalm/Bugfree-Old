@@ -5,7 +5,6 @@ block content
 		each project in projects
 			.project
 				.project__image(style='background-image: url(' + project.image_url + ')')
-					//- img.can-open(src=project.image_url, alt='Bugfree screenshot')
 				div
 					h3= project.title
 					p!= project.content
