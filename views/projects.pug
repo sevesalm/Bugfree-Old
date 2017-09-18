@@ -10,9 +10,9 @@ block content
 					h3= project.title
 					p!= project.content
 					if project.source_url
-						h5
+						div
 							a(href=project.source_url) Source
 					if project.demo_url
-						h5
+						div
 							a(href=project.demo_url) Demo
 			.border

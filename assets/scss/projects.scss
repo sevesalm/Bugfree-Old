@@ -1,8 +1,8 @@
 .projects {
   .project {
     display: flex;
-    h3, h5 {
-      margin: 10px 0;
+    h3 {
+      margin: 0 0;
     }
     &__image {
       background: url('/static/agriscore.png') no-repeat center center;
