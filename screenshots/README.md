@@ -1,6 +1,6 @@
 # Screenshots of Bugfree.fi
 
-These screenshots were taken on 21th May 2022.
+These screenshots were taken in May 2022, just before shutdown.
 
 Main page:
 ![Main page](bugfree_fi.png)
